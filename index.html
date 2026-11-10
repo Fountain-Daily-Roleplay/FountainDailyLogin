@@ -578,7 +578,7 @@ button, a, input, select, textarea { touch-action: manipulation; }
 </div>
 </section>
 <form id="loginForm">
-<div class="field"><div class="labelrow"><label for="username">USERNAME / CHARACTER NAME</label><span class="hint">Required</span></div><div class="control"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.5-4 3.2-6 8-6s7.5 2 8 6"/></svg><input id="username" name="username" type="text" placeholder="Masukan Nama Ucp" autocomplete="username" required></div></div>
+<div class="field"><div class="labelrow"><label for="username">UCP ACCOUNT</label><span class="hint">Linked by server</span></div><div class="control"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.5-4 3.2-6 8-6s7.5 2 8 6"/></svg><input id="username" name="username" type="text" placeholder="Nama akun ditentukan server" autocomplete="username" aria-describedby="accountIdentityNote" readonly><span id="accountIdentityNote" class="field-note">Identitas UCP mengikuti akun SA-MP yang sedang terhubung.</span></div></div>
 <div class="field"><div class="labelrow"><label for="password">PASSWORD</label><span class="hint">Keep it private</span></div><div class="control"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required><button class="reveal" type="button" id="toggle">SHOW</button></div></div>
 <div class="options"><label class="remember"><input id="remember" type="checkbox"> Remember account</label><a class="help" href="#" id="help">Need help?</a></div>
 <div class="actions"><button class="login" type="submit">LOGIN TO SERVER&nbsp; ↗</button><a class="helpbtn" href="#" id="helpIcon" aria-label="Help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.2 1-1.8 1.4-1.8 3"/><path d="M12 17.5h.01"/></svg></a></div><p class="message" id="message" role="status">Pastikan detail akun kamu benar sebelum masuk.</p><p class="security-note" id="loginSecurityNote">Proteksi percobaan login dikelola oleh server.</p>
@@ -739,10 +739,11 @@ if(bridge()){
     else if(result==='already_registered')regStatus.textContent='Akun sudah memiliki password. Silakan login.';
     else if(result==='too_short')regStatus.textContent='Password minimal 6 karakter.';
     else if(result==='invalid_password')regStatus.textContent='Format password tidak valid.';
+    else if(result==='save_failed')regStatus.textContent='Password gagal disimpan ke database. Coba lagi atau hubungi administrator.';
     else regStatus.textContent='Password gagal disimpan ke server.';
   });
   cef.on('fdrp_character_result',result=>{
-    if(result==='ok'){regStatus.textContent='Karakter berhasil dibuat! Memuat daftar karakter…';regStatus.style.color='#75d6ff';setTimeout(()=>{regClose();if(bridge())cef.emit('fdrp_request_characters');},350);}
+    if(result==='ok'){regStatus.textContent='Karakter berhasil dibuat! Server akan menempatkan kamu ke kota.';regStatus.style.color='#75d6ff';setTimeout(()=>regClose(),350);}
     else if(result==='name_taken')regStatus.textContent='Nama karakter sudah digunakan.';
     else if(result==='invalid_skin')regStatus.textContent='Pilihan tampilan tidak valid. Muat ulang daftar skin.';
     else regStatus.textContent='Karakter gagal dibuat. Silakan coba kembali.';
@@ -769,7 +770,7 @@ function drawCharacters(list){
   const button=document.createElement('button');button.type='button';button.className='char-item';
   button.innerHTML='<span class="char-avatar">♙</span><span><strong></strong><small></small></span><span class="select-tag">PILIH →</span>';
   button.querySelector('strong').textContent=name;button.querySelector('small').textContent='Slot '+(index+1)+' · Skin '+skin;
-  button.addEventListener('click',()=>{activeCharacter=id;updateCharacterPreview(typeof c==='object'?c:{name:String(c)});charStatus.textContent='Karakter '+name+' dipilih. Meminta pilihan spawn…';if(bridge())cef.emit('fdrp_select_character',id,name);else charStatus.textContent='Fitur karakter hanya tersedia di CEF game.';});
+  button.addEventListener('click',()=>{activeCharacter=id;updateCharacterPreview(typeof c==='object'?c:{name:String(c)});charStatus.textContent='Pemilihan karakter dikelola oleh dialog native server.';});
   charList.appendChild(button);
  });
 }
@@ -789,8 +790,7 @@ document.querySelectorAll('.spawn-option').forEach(btn=>btn.addEventListener('cl
  const spawnName=isLastLocation?'Lokasi Terakhir':btn.querySelector('strong').textContent;
  selectedSpawnId=spawnId;
  document.getElementById('spawnStatus').textContent='Memilih '+spawnName+'…';
- if(bridge())cef.emit('fdrp_spawn_select',activeCharacter,spawnId);
- else document.getElementById('spawnStatus').textContent='Spawn hanya tersedia melalui CEF.';
+ document.getElementById('spawnStatus').textContent='Pemilihan spawn dikelola oleh dialog native server.';
 }));
 if(bridge()){
  cef.on('fdrp_character_list',list=>{hideLoading();drawCharacters(list);openCharacterHub(list);});
@@ -843,8 +843,7 @@ registerButton.addEventListener('click',e=>{
 if(bridge()){
  cef.on('fdrp_ucp_status',setRegisteredState);
  cef.on('fdrp_account_status',setRegisteredState);
- // Ask the Pawn/server side for the UCP name's current registration state.
-	 cef.emit('fdrp_check_ucp_status',user.value||'');
+ // Registration state is authoritative in Pawn and arrives via fdrp_auth_mode.
 }
 
 ucpToggle.addEventListener('click',()=>{
@@ -856,7 +855,7 @@ ucpToggle.addEventListener('click',()=>{
 const help=()=>{message.textContent='Hubungi administrator server untuk bantuan akun.';};
 document.getElementById('help').addEventListener('click',e=>{e.preventDefault();help();});
 document.getElementById('helpIcon').addEventListener('click',e=>{e.preventDefault();help();});
-try { const saved=localStorage.getItem('fdrp_account'); if(saved){user.value=saved;document.getElementById('remember').checked=true;} } catch(e) {}
+try { const saved=localStorage.getItem('fdrp_account'); if(saved){document.getElementById('remember').checked=true;} } catch(e) {}
 
 if(bridge()){
   cef.on('fdrp_auth_mode',mode=>{
@@ -879,11 +878,10 @@ if(bridge()){
     }
   });
   cef.on('fdrp_login_result',result=>{
-    if(result==='ok'){showLoading('LOGIN BERHASIL','Mengambil data karakter akun…');message.textContent='Login berhasil. Memuat daftar karakter…';message.style.color='#75d6ff';if(bridge())cef.emit('fdrp_request_characters');}
+    if(result==='ok'){showLoading('LOGIN BERHASIL','Membuka pemilihan karakter native server…');message.textContent='Login berhasil. Silakan pilih karakter pada dialog server.';message.style.color='#75d6ff';}
     else if(result==='bad_password'){message.textContent='Kata sandi salah. Periksa kembali.';message.style.color='#ff9b9b';pass.value='';pass.focus();}
     else if(result==='banned'||result==='suspended'){setAccountState({status:result});message.textContent=result==='banned'?'Akun kamu telah di-banned. Hubungi administrator.':'Akun kamu sedang suspended. Hubungi administrator.';message.style.color='#ff9b9b';}
     else if(result==='locked'){message.textContent='Terlalu banyak percobaan. Koneksi akan ditutup.';message.style.color='#ff9b9b';}
-    else if(result==='name_mismatch'){message.textContent='Nama akun harus sama dengan nama karakter yang digunakan untuk masuk ke server.';message.style.color='#ffbd78';}
     else if(result==='not_ready'){message.textContent='Data akun belum siap. Tunggu sebentar lalu coba kembali.';message.style.color='#ffbd78';}
     else {message.textContent='Data login tidak valid.';message.style.color='#ff9b9b';}
   });
@@ -897,21 +895,20 @@ if(bridge()){
   cef.on('fdrp_last_location',setLastLocation);
   cef.on('fdrp_login_security',setLoginSecurity);
   cef.on('fdrp_loading_state',data=>{if(data&&data.visible)showLoading(data.title,data.message);else hideLoading();});
-  cef.emit('fdrp_request_account_state');
-  cef.emit('fdrp_request_last_location');
-  cef.emit('fdrp_request_maintenance');
+  // Optional dashboard requests are intentionally omitted because native
+  // login has no Pawn subscriptions for them.
 }
 
 document.getElementById('loginForm').addEventListener('submit',e=>{
   e.preventDefault();
   if(serverMaintenance){message.textContent='Server sedang maintenance.';return;}
   if(!bridge()){message.textContent='Form autentikasi hanya tersedia saat halaman dibuka di dalam game melalui CEF.';return;}
-  const name=user.value.trim(),secret=pass.value;
-  if(!name||!secret){message.textContent='Isi nama karakter dan kata sandi.';return;}
-  if(/\s/.test(name)||/\s/.test(secret)){message.textContent='Nama dan kata sandi tidak boleh mengandung spasi.';return;}
-  if(document.getElementById('remember').checked){try{localStorage.setItem('fdrp_account',name);}catch(e){}}else{try{localStorage.removeItem('fdrp_account');}catch(e){}}
+  const secret=pass.value;
+  if(!secret){message.textContent='Isi kata sandi akun.';return;}
+  if(/\s/.test(secret)){message.textContent='Kata sandi tidak boleh mengandung spasi.';return;}
+  if(document.getElementById('remember').checked){try{localStorage.setItem('fdrp_account','linked');}catch(e){}}else{try{localStorage.removeItem('fdrp_account');}catch(e){}}
   message.textContent='Mengirim permintaan login ke server…';message.style.color='#75d6ff';
-  cef.emit('fdrp_login',name,secret);
+  cef.emit('fdrp_login',secret);
 });
 
 document.getElementById('verifyCode').addEventListener('click',()=>{
