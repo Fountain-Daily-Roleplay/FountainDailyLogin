@@ -137,21 +137,233 @@ label{font-size:8px;letter-spacing:.16em}
 .reg-step[hidden]{display:none}
 @media(max-width:420px){.reg-grid{grid-template-columns:1fr}.skin-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.reg-card{padding:16px}.reg-overlay{padding:7px}}
 
+
+/* ===== FDRP UI refresh: centered modern layout + prominent UCP code ===== */
+.layout{
+ width:min(92vw,760px)!important;max-height:94vh;overflow:auto;
+ grid-template-columns:1fr!important;border-radius:25px!important;
+ background:linear-gradient(145deg,rgba(5,17,32,.96),rgba(7,22,39,.94) 55%,rgba(4,14,27,.97))!important;
+ border:1px solid rgba(106,202,255,.32)!important;
+ box-shadow:0 30px 100px #0008,0 0 45px #0b8de51a,inset 0 1px #ffffff12!important;
+}
+.identity{padding:20px 28px 17px!important;border:0!important;border-bottom:1px solid rgba(126,193,239,.14)!important;
+ display:grid!important;grid-template-columns:74px 1fr auto;gap:16px;align-items:center;text-align:left!important;
+ background:radial-gradient(ellipse at 15% 50%,#168de922,transparent 60%)!important}
+.logo{width:68px!important;height:68px!important;grid-row:1/3}
+.brand{margin:0!important;font-size:16px!important;letter-spacing:.17em!important}
+.brand span{font-size:8px!important;margin-top:5px!important}
+.tagline{display:block!important;max-width:none!important;margin:5px 0 0!important;font-size:9px!important}
+.server-chip{grid-column:3;grid-row:1/3;white-space:nowrap}
+.formside{padding:25px clamp(20px,5vw,48px) 22px!important}
+.head{margin-bottom:15px!important}
+h1{font-size:clamp(26px,4vw,36px)!important}
+.sub{font-size:10px!important;margin-bottom:18px!important}
+.ucp-area{margin:0 0 18px!important;order:-1}
+.formside{display:flex}
+#loginForm{display:flex;flex-direction:column}
+.ucp-trigger{padding:14px 15px!important;border-radius:14px!important;background:linear-gradient(115deg,#0c3a5b88,#0a2039aa)!important}
+.ucp-trigger-icon{width:38px!important;height:38px!important;font-size:20px!important;border-radius:11px!important}
+.ucp-trigger-copy strong{font-size:10px!important}
+.ucp-trigger-copy small{font-size:9px!important}
+.ucp-trigger-action{font-size:8px!important}
+.ucp-panel{padding:15px!important;border-radius:14px!important}
+.bot-title{font-size:10px!important}
+.bot-desc{font-size:9px!important;line-height:1.6!important}
+.bot-row{grid-template-columns:minmax(0,1fr) 125px!important;gap:9px!important}
+.bot-row input{height:45px!important;font-size:12px!important;letter-spacing:.14em!important;padding:0 14px!important;border-radius:10px!important}
+.verify{height:45px!important;font-size:9px!important;border-radius:10px!important}
+.bot-status{font-size:9px!important}
+.field{margin-bottom:12px!important}
+.control{height:47px!important;border-radius:11px!important}
+.control input{font-size:11px!important}
+.options{margin:2px 0 15px!important}
+.login,.helpbtn{height:47px!important;border-radius:11px!important}
+.register-open{height:43px!important;margin-top:12px!important}
+.bottom{margin-top:16px!important;font-size:8px!important}
+@media(orientation:portrait){
+ .layout{width:min(94vw,600px)!important;grid-template-columns:1fr!important}
+ .identity{grid-template-columns:58px 1fr!important;padding:15px 18px!important;gap:11px!important;text-align:left!important}
+ .logo{width:54px!important;height:54px!important;grid-row:1/3}
+ .brand{font-size:13px!important}
+ .tagline{display:block!important;font-size:8px!important;line-height:1.5!important}
+ .server-chip{grid-column:2;grid-row:3;justify-self:start;margin-top:2px!important}
+ .formside{padding:20px 20px 18px!important}
+}
+@media(max-width:480px){
+ .layout{width:96vw!important;max-height:96vh!important;border-radius:19px!important}
+ .identity{padding:12px 14px!important}
+ .logo{width:46px!important;height:46px!important}
+ .brand{font-size:11px!important}
+ .tagline{font-size:7px!important}
+ .server-chip{font-size:7px!important;padding:5px 8px!important}
+ .formside{padding:16px 14px!important}
+ .bot-row{grid-template-columns:minmax(0,1fr) 105px!important}
+ .bot-row input,.verify{height:41px!important}
+}
+@media(max-height:650px){.layout{max-height:98vh!important}.identity{padding:12px 22px!important}.logo{width:48px!important;height:48px!important}.formside{padding-top:15px!important;padding-bottom:13px!important}.field{margin-bottom:8px!important}.control{height:40px!important}.login,.helpbtn{height:41px!important}.ucp-panel{padding:10px!important}.bot-row input,.verify{height:39px!important}.bottom{margin-top:9px!important}}
+
+/* LANDSCAPE layout */
+@media (orientation:landscape) and (min-width:700px){
+ body{padding:2vh 2vw!important;align-items:center!important}
+ .layout{
+   width:min(96vw,1240px)!important;max-height:94vh!important;overflow:auto!important;
+   grid-template-columns:minmax(260px,.72fr) minmax(460px,1.28fr)!important;
+   align-items:stretch!important;
+ }
+ .identity{
+   grid-template-columns:1fr!important;display:flex!important;
+   flex-direction:column!important;justify-content:center!important;
+   text-align:center!important;padding:clamp(22px,4vh,48px) clamp(18px,2vw,34px)!important;
+   border-right:1px solid rgba(126,193,239,.14)!important;
+   border-bottom:0!important;
+ }
+ .logo{width:clamp(85px,12vh,145px)!important;height:clamp(85px,12vh,145px)!important;grid-row:auto!important}
+ .brand{font-size:clamp(15px,2vw,23px)!important;margin-top:12px!important}
+ .tagline{max-width:290px!important;margin:12px auto 18px!important;font-size:clamp(9px,1.1vh,12px)!important}
+ .server-chip{grid-column:auto!important;grid-row:auto!important;justify-self:center!important;margin:0!important}
+ .formside{padding:clamp(20px,4vh,42px) clamp(25px,4vw,60px)!important}
+ h1{font-size:clamp(28px,4vh,42px)!important}
+ .sub{font-size:clamp(10px,1.35vh,13px)!important}
+ .ucp-area{margin-bottom:clamp(12px,2vh,22px)!important}
+ .ucp-trigger{padding:clamp(12px,2vh,18px) clamp(13px,1.5vw,22px)!important}
+ .ucp-panel{padding:clamp(12px,2vh,20px)!important}
+ .bot-row input,.verify{height:clamp(40px,5vh,52px)!important}
+ .control{height:clamp(43px,5.4vh,54px)!important}
+ .login,.helpbtn{height:clamp(43px,5.4vh,54px)!important}
+ .bottom{margin-top:clamp(10px,2vh,20px)!important}
+}
+@media (orientation:landscape) and (max-width:699px){
+ body{padding:8px!important;align-items:flex-start!important}
+ .layout{width:98vw!important;max-height:98vh!important;overflow:auto!important}
+ .identity{grid-template-columns:48px 1fr!important;padding:10px 13px!important}
+ .logo{width:42px!important;height:42px!important}
+ .brand{font-size:11px!important}
+ .tagline{font-size:7px!important}
+ .formside{padding:12px 14px!important}
+ .head{margin-bottom:8px!important}
+ .sub{margin-bottom:10px!important}
+ .ucp-area{margin-bottom:10px!important}
+ .ucp-trigger{padding:8px 10px!important}
+ .ucp-trigger-icon{width:26px!important;height:26px!important}
+ .ucp-panel{padding:8px!important}
+ .bot-row input,.verify{height:33px!important}
+ .field{margin-bottom:7px!important}
+ .control{height:35px!important}
+ .login,.helpbtn{height:36px!important}
+ .bottom{margin-top:7px!important}
+}
+
+/* Responsive smartphone/tablet/desktop */
+html{width:100%;min-height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+*,*::before,*::after{box-sizing:border-box}
+body{width:100%;min-width:0;margin:0;overflow-x:hidden}
+.layout{width:min(100%,1240px);min-width:0}
+img,svg,video,canvas{max-width:100%;height:auto}
+input,button,select,textarea{max-width:100%;font:inherit}
+@media (max-width:900px){
+ body{padding:clamp(10px,3vw,24px)!important;align-items:flex-start!important}
+ .layout{width:100%!important;max-width:100%!important;max-height:none!important;overflow:visible!important;grid-template-columns:minmax(0,1fr)!important}
+ .identity{grid-template-columns:64px minmax(0,1fr)!important;gap:12px!important;padding:clamp(14px,3vw,24px)!important;text-align:left!important}
+ .logo{width:clamp(48px,12vw,76px)!important;height:clamp(48px,12vw,76px)!important}
+ .brand{font-size:clamp(13px,3.4vw,20px)!important;overflow-wrap:anywhere}
+ .tagline{font-size:clamp(9px,2.3vw,12px)!important;max-width:none!important}
+ .server-chip{grid-column:1/-1!important;justify-self:start!important}
+ .formside{min-width:0;padding:clamp(16px,4vw,32px)!important}
+ h1{font-size:clamp(24px,6vw,38px)!important;line-height:1.12}
+ .sub{font-size:clamp(11px,2.8vw,14px)!important}
+ .ucp-area,.ucp-panel,.field,.bot-row{min-width:0;max-width:100%}
+ .bot-row{display:flex;flex-wrap:wrap;gap:8px}
+ .bot-row input{flex:1 1 180px;min-width:0;width:100%}
+ .verify{flex:0 0 auto}
+ .control{width:100%;min-width:0}
+ .login,.helpbtn{width:100%;min-width:0}
+}
+@media (max-width:480px){
+ body{padding:8px!important}
+ .identity{grid-template-columns:46px minmax(0,1fr)!important;gap:9px!important;padding:12px!important}
+ .logo{width:42px!important;height:42px!important}
+ .brand{font-size:12px!important}
+ .tagline{font-size:9px!important;margin:5px 0 8px!important}
+ .formside{padding:14px 12px!important}
+ .head{margin-bottom:10px!important}
+ .ucp-trigger{width:100%;padding:11px!important}
+ .ucp-trigger-title{font-size:12px!important}
+ .ucp-panel{padding:12px!important}
+ .bot-row input{flex-basis:100%;height:44px!important}
+ .verify{width:100%;height:42px!important}
+ .field{margin-bottom:12px!important}
+ .control{height:46px!important;font-size:14px!important}
+ .login,.helpbtn{height:46px!important}
+ .bottom{font-size:11px!important;overflow-wrap:anywhere}
+}
+@media (max-width:360px){
+ .identity{grid-template-columns:1fr!important;text-align:center!important}
+ .logo{margin:0 auto!important}
+ .server-chip{justify-self:center!important}
+ .formside{padding:12px 9px!important}
+}
+
+
+/* Compact layout + hide visible scrollbars */
+@media (min-width:901px){
+ body{padding:1.5vh 1.5vw!important}
+ .layout{width:min(94vw,1120px)!important;max-height:92vh!important}
+ .identity{padding:clamp(18px,3vh,34px) clamp(16px,2vw,26px)!important}
+ .logo{width:clamp(72px,10vh,112px)!important;height:clamp(72px,10vh,112px)!important}
+ .formside{padding:clamp(18px,3vh,30px) clamp(22px,3vw,42px)!important}
+ h1{font-size:clamp(25px,3.4vh,35px)!important}
+ .ucp-area{margin-bottom:12px!important}
+ .ucp-trigger{padding:11px 14px!important}
+ .ucp-panel{padding:12px!important}
+ .field{margin-bottom:10px!important}
+ .control{height:43px!important}
+ .login,.helpbtn{height:43px!important}
+ .bottom{margin-top:10px!important}
+}
+@media (max-width:900px){
+ body{padding:clamp(6px,1.8vw,14px)!important}
+ .layout{width:100%!important}
+ .identity{padding:clamp(10px,2vw,16px)!important}
+ .formside{padding:clamp(12px,2.5vw,20px)!important}
+ h1{font-size:clamp(22px,5.2vw,32px)!important}
+ .ucp-area{margin-bottom:10px!important}
+ .ucp-trigger{padding:9px 11px!important}
+ .ucp-panel{padding:10px!important}
+ .field{margin-bottom:9px!important}
+ .control{height:42px!important}
+ .login,.helpbtn{height:42px!important}
+ .bottom{margin-top:8px!important}
+}
+@media (max-width:480px){
+ body{padding:5px!important}
+ .identity{padding:9px!important}
+ .formside{padding:11px 9px!important}
+ .head{margin-bottom:8px!important}
+ .ucp-trigger{padding:9px!important}
+ .ucp-panel{padding:9px!important}
+ .bot-row input{height:40px!important}
+ .verify{height:39px!important}
+ .field{margin-bottom:9px!important}
+ .control{height:42px!important}
+ .login,.helpbtn{height:42px!important}
+ .bottom{margin-top:6px!important}
+}
+/* Hide scrollbar visuals but retain scrolling where content needs it */
+html,body,.layout,.formside,.ucp-panel{
+ scrollbar-width:none!important;
+ -ms-overflow-style:none!important;
+}
+html::-webkit-scrollbar,body::-webkit-scrollbar,.layout::-webkit-scrollbar,
+.formside::-webkit-scrollbar,.ucp-panel::-webkit-scrollbar{
+ width:0!important;height:0!important;display:none!important;
+}
+
 </style></head><body>
 <div class="ambient"><div class="orb a"></div><div class="orb b"></div></div>
 <main class="layout">
 <section class="identity"><img class="logo" src="assets/logo.png" alt="Fountain Daily Roleplay"><div class="brand">FOUNTAIN DAILY<span>ROLEPLAY </span></div><p class="tagline">Your character. Your journey. Your story.<br>Mulai petualangan roleplay kamu sekarang.</p><div class="server-chip"><i></i> FDRP PORTAL</div></section>
 <section class="formside">
 <div class="head"><span class="kicker">PLAYER AUTHENTICATION</span><span class="secure">◈ SECURE LOGIN</span></div><h1>Welcome Back.</h1><p class="sub">Masuk dengan akun karakter Fountain Daily Roleplay kamu.</p>
-<form id="loginForm">
-<div class="field"><div class="labelrow"><label for="username">USERNAME / CHARACTER NAME</label><span class="hint">Required</span></div><div class="control"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.5-4 3.2-6 8-6s7.5 2 8 6"/></svg><input id="username" name="username" type="text" placeholder="Masukan Nama Ucp" autocomplete="username" required></div></div>
-<div class="field"><div class="labelrow"><label for="password">PASSWORD</label><span class="hint">Keep it private</span></div><div class="control"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required><button class="reveal" type="button" id="toggle">SHOW</button></div></div>
-<div class="options"><label class="remember"><input id="remember" type="checkbox"> Remember account</label><a class="help" href="#" id="help">Need help?</a></div>
-<div class="actions"><button class="login" type="submit">LOGIN TO SERVER&nbsp; ↗</button><a class="helpbtn" href="#" id="helpIcon" aria-label="Help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.2 1-1.8 1.4-1.8 3"/><path d="M12 17.5h.01"/></svg></a></div><p class="message" id="message" role="status">Pastikan detail akun kamu benar sebelum masuk.</p>
-</form>
-
-<button class="register-open" id="registerOpen" type="button">PLAYER BARU? BUAT AKUN & KARAKTER&nbsp; ↗</button>
-
 <section class="ucp-area" aria-label="Verifikasi UCP">
 <button class="ucp-trigger" id="ucpToggle" type="button" aria-expanded="false" aria-controls="ucpPanel">
   <span class="ucp-trigger-icon" aria-hidden="true">⌘</span>
@@ -161,10 +373,20 @@ label{font-size:8px;letter-spacing:.16em}
 <div class="ucp-panel" id="ucpPanel" hidden>
   <div class="bot-head"><span class="bot-title">KODE BOT UCP</span><span class="bot-tag">PLAYER VERIFICATION</span></div>
   <p class="bot-desc">Masukkan kode verifikasi yang kamu dapatkan dari BOT UCP untuk menghubungkan akun karakter dengan UCP.</p>
-  <div class="bot-row"><input id="ucpCode" type="text" placeholder="CONTOH: FD-XXXXXX" maxlength="32" autocomplete="one-time-code" aria-label="Kode BOT UCP"><button class="verify" id="verifyCode" type="button">VERIFIKASI</button></div>
+  <div class="bot-row"><input id="ucpCode" type="text" placeholder="Masukkan kode BOT UCP kamu" maxlength="32" autocomplete="one-time-code" inputmode="text" aria-label="Kode BOT UCP"><button class="verify" id="verifyCode" type="button">VERIFIKASI</button></div>
   <p class="bot-status" id="botStatus" role="status">Kode akan diverifikasi oleh sistem UCP server.</p>
 </div>
 </section>
+<form id="loginForm">
+<div class="field"><div class="labelrow"><label for="username">USERNAME / CHARACTER NAME</label><span class="hint">Required</span></div><div class="control"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.5-4 3.2-6 8-6s7.5 2 8 6"/></svg><input id="username" name="username" type="text" placeholder="Masukan Nama Ucp" autocomplete="username" required></div></div>
+<div class="field"><div class="labelrow"><label for="password">PASSWORD</label><span class="hint">Keep it private</span></div><div class="control"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required><button class="reveal" type="button" id="toggle">SHOW</button></div></div>
+<div class="options"><label class="remember"><input id="remember" type="checkbox"> Remember account</label><a class="help" href="#" id="help">Need help?</a></div>
+<div class="actions"><button class="login" type="submit">LOGIN TO SERVER&nbsp; ↗</button><a class="helpbtn" href="#" id="helpIcon" aria-label="Help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.2 1-1.8 1.4-1.8 3"/><path d="M12 17.5h.01"/></svg></a></div><p class="message" id="message" role="status">Pastikan detail akun kamu benar sebelum masuk.</p>
+</form>
+
+<button class="register-open" id="registerOpen" type="button">PLAYER BARU? BUAT AKUN & KARAKTER&nbsp; ↗</button>
+
+
 <div class="bottom"><span><b>FDRP</b> · FOUNTAIN DAILY RP</span><span>SA-MP · UCP</span></div>
 </section></main>
 
@@ -173,10 +395,9 @@ label{font-size:8px;letter-spacing:.16em}
     <div class="reg-top"><span class="reg-kicker">FOUNTAIN DAILY ROLEPLAY · NEW PLAYER</span><button class="reg-close" id="regClose" type="button" aria-label="Tutup">×</button></div>
     <div class="reg-progress" aria-hidden="true"><span id="regBar1" class="active"></span><span id="regBar2"></span><span id="regBar3"></span></div>
     <section class="reg-step" id="regStep1">
-      <h2 id="regTitle">Buat Akun Baru</h2><p class="reg-desc">Buat kata sandi akun dan isi tanggal lahir kamu untuk memulai perjalanan roleplay.</p>
+      <h2 id="regTitle">Buat Password</h2><p class="reg-desc">Buat kata sandi akun. Setelah tersimpan, kamu akan melanjutkan ke pembuatan karakter.</p>
       <div class="reg-field"><label for="regPassword">CREATE PASSWORD</label><input class="reg-input" id="regPassword" type="password" minlength="6" maxlength="64" autocomplete="new-password" placeholder="Minimal 6 karakter"></div>
       <div class="reg-field"><label for="regPassword2">KONFIRMASI PASSWORD</label><input class="reg-input" id="regPassword2" type="password" minlength="6" maxlength="64" autocomplete="new-password" placeholder="Ulangi kata sandi"></div>
-      <div class="reg-field"><label for="regBirth">TANGGAL LAHIR</label><input class="reg-input" id="regBirth" type="date"></div>
       <div class="reg-actions"><button class="reg-btn secondary" type="button" id="regCancel1">BATAL</button><button class="reg-btn" type="button" id="regAccountNext">LANJUTKAN ↗</button></div>
     </section>
     <section class="reg-step" id="regStep2" hidden>
@@ -206,8 +427,7 @@ const botStatus=document.getElementById('botStatus');
 const bridge=()=>window.cef&&typeof window.cef.emit==='function'&&typeof window.cef.on==='function';
 
 // Registration UI ↔ Pawn/CEF bridge.
-// Event contract: fdrp_register_account(password, YYYY-MM-DD),
-// fdrp_create_character(icName, gender, skinId), fdrp_request_skins().
+// Event contract: fdrp_register(password), fdrp_create_character(icName, gender, skinId).
 const regOverlay=document.getElementById('regOverlay');
 const regStatus=document.getElementById('regStatus');
 let regGender='male', regSelectedSkin=null, regSkins=[];
@@ -232,21 +452,22 @@ document.querySelectorAll('.reg-gender').forEach(btn=>btn.addEventListener('clic
   document.querySelectorAll('.reg-gender').forEach(b=>b.classList.toggle('selected',b===btn));
 }));
 document.getElementById('regAccountNext').addEventListener('click',()=>{
-  const a=document.getElementById('regPassword').value,b=document.getElementById('regPassword2').value,dob=document.getElementById('regBirth').value;
+  const a=document.getElementById('regPassword').value,b=document.getElementById('regPassword2').value;
   if(a.length<6){regStatus.textContent='Password minimal 6 karakter.';return;}
   if(a!==b){regStatus.textContent='Konfirmasi password tidak sama.';return;}
-  if(!dob){regStatus.textContent='Tanggal lahir wajib diisi.';return;}
   if(!bridge()){regStatus.textContent='Pendaftaran hanya dapat diproses melalui CEF di dalam game.';return;}
-  regStatus.textContent='Mengirim data akun ke server…';
-  cef.emit('fdrp_register_account',a,dob);
+  regStatus.textContent='Mengirim password ke server…';
+  document.getElementById('regAccountNext').disabled=true;
+  cef.emit('fdrp_register',a);
 });
 document.getElementById('regCharacterNext').addEventListener('click',()=>{
   const name=document.getElementById('regCharacter').value.trim();
-  if(!/^[A-Za-z][A-Za-z_]{2,23}$/.test(name)){regStatus.textContent='Nama IC 3–24 karakter. Gunakan huruf dan underscore, contoh John_Smith.';return;}
-  regShowStep(3);regSelectedSkin=null;document.getElementById('regFinish').disabled=true;
-  document.getElementById('regSkinGrid').innerHTML='<div class="skin-empty">Meminta daftar tampilan karakter dari server…</div>';
-  if(bridge())cef.emit('fdrp_request_skins',regGender);
-  else document.getElementById('regSkinGrid').innerHTML='<div class="skin-empty">Daftar skin hanya bisa dimuat saat terhubung ke server.</div>';
+  if(!/^[A-Za-z]+_[A-Za-z]+$/.test(name)){regStatus.textContent='Gunakan format nama seperti John_Smith.';return;}
+  const ids=regGender==='female'?[9,10,11,12,13,31,38,39,40,41]:[1,2,3,4,5,6,7,14,100,299];
+  regSkins=ids;regSelectedSkin=null;document.getElementById('regFinish').disabled=true;
+  const grid=document.getElementById('regSkinGrid');grid.innerHTML='';
+  ids.forEach(id=>{const button=document.createElement('button');button.type='button';button.className='skin-option';button.dataset.skin=id;button.innerHTML='<span class="skin-avatar">'+id+'</span><strong>Skin '+id+'</strong><small>'+(regGender==='female'?'Perempuan':'Laki-laki')+'</small>';button.addEventListener('click',()=>{regSelectedSkin=id;grid.querySelectorAll('.skin-option').forEach(el=>el.classList.toggle('selected',el===button));document.getElementById('regFinish').disabled=false;regStatus.textContent='Skin '+id+' dipilih.';});grid.appendChild(button);});
+  regShowStep(3);
 });
 document.getElementById('regBack2').addEventListener('click',()=>regShowStep(1));
 document.getElementById('regBack3').addEventListener('click',()=>regShowStep(2));
@@ -279,14 +500,15 @@ function renderServerSkins(list){
 }
 if(bridge()){
   cef.on('fdrp_register_result',result=>{
-    if(result==='account_created'){regShowStep(2);regStatus.textContent='Akun berhasil dibuat. Sekarang buat karakter IC kamu.';}
-    else if(result==='account_exists')regStatus.textContent='Akun sudah terdaftar. Silakan login.';
-    else if(result==='bad_birthdate')regStatus.textContent='Tanggal lahir tidak valid.';
-    else regStatus.textContent='Pendaftaran akun gagal. Periksa data atau hubungi admin.';
+    const submit=document.getElementById('regAccountNext');submit.disabled=false;
+    if(result==='ok'){regShowStep(2);regStatus.textContent='Password berhasil disimpan. Sekarang buat karakter IC kamu.';regStatus.style.color='#75d6ff';}
+    else if(result==='already_registered')regStatus.textContent='Akun sudah memiliki password. Silakan login.';
+    else if(result==='too_short')regStatus.textContent='Password minimal 6 karakter.';
+    else if(result==='invalid_password')regStatus.textContent='Format password tidak valid.';
+    else regStatus.textContent='Password gagal disimpan ke server.';
   });
-  cef.on('fdrp_skin_list',renderServerSkins);
   cef.on('fdrp_character_result',result=>{
-    if(result==='created'){regStatus.textContent='Karakter berhasil dibuat! Selamat bermain.';regStatus.style.color='#75d6ff';}
+    if(result==='ok'){regStatus.textContent='Karakter berhasil dibuat! Memuat karakter…';regStatus.style.color='#75d6ff';setTimeout(regClose,250);}
     else if(result==='name_taken')regStatus.textContent='Nama karakter sudah digunakan.';
     else if(result==='invalid_skin')regStatus.textContent='Pilihan tampilan tidak valid. Muat ulang daftar skin.';
     else regStatus.textContent='Karakter gagal dibuat. Silakan coba kembali.';
