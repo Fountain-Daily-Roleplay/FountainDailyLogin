@@ -409,7 +409,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,.layout::-webkit-scrollbar,
 .feature-value{display:block;color:#eaf7ff;font-size:10px;font-weight:800;overflow-wrap:anywhere}
 .feature-muted{display:block;color:#8faac1;font-size:8px;margin-top:4px;line-height:1.45}
 .status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#35df9b;margin-right:6px;box-shadow:0 0 9px currentColor}
-.status-dot.banned{background:#ff626f}.status-dot.suspended{background:#ffbd58}.status-dot.maintenance{background:#ffbd58}
+.status-dot.banned{background:#ff626f}.status-dot.suspended{background:#ffbd58}.status-dot.pending{background:#8cc8ff}.status-dot.maintenance{background:#ffbd58}
 .last-location{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px;padding:9px 11px;border:1px solid #75cfff24;border-radius:10px;background:#ffffff06}
 .last-location span{font-size:8px;color:#9cb5ca;line-height:1.5}.last-location b{color:#eaf7ff}
 .last-location button{border:1px solid #5ecaff66;border-radius:8px;background:#168de926;color:#a9e6ff;padding:8px 10px;font-size:8px;font-weight:900;cursor:pointer}
@@ -558,10 +558,10 @@ button, a, input, select, textarea { touch-action: manipulation; }
 <main class="layout">
 <section class="identity"><img class="logo" src="assets/logo.png" alt="Fountain Daily Roleplay"><div class="brand">FOUNTAIN DAILY<span>ROLEPLAY </span></div><p class="tagline">Your character. Your journey. Your story.<br>Mulai petualangan roleplay kamu sekarang.</p><div class="server-chip"><i></i> FDRP PORTAL</div></section>
 <section class="formside">
-<div class="head"><span class="kicker">PLAYER AUTHENTICATION</span><span class="secure">◈ SECURE LOGIN</span></div><h1>Welcome Back.</h1><p class="sub">Masuk dengan akun karakter Fountain Daily Roleplay kamu.</p>
+<div class="head"><span class="kicker">PLAYER AUTHENTICATION</span><span class="secure">◈ SECURE LOGIN</span></div><h1>Selamat Datang...</h1><p class="sub">Masuk dengan akun karakter Fountain Daily Roleplay kamu.</p>
 <div class="maintenance-banner" id="maintenanceBanner" role="status">SERVER SEDANG MAINTENANCE. Login sementara dinonaktifkan.</div>
 <div class="feature-strip">
- <div class="feature-card"><span class="feature-label">ACCOUNT STATUS</span><span class="feature-value" id="accountStatus"><i class="status-dot"></i>Checking…</span><span class="feature-muted" id="accountStatusNote">Status akun dari server</span></div>
+ <div class="feature-card"><span class="feature-label">ACCOUNT STATUS</span><span class="feature-value" id="accountStatus"><i class="status-dot"></i>CONNECTING</span><span class="feature-muted" id="accountStatusNote">Menunggu status autentikasi server</span></div>
  <div class="feature-card"><span class="feature-label">CHARACTER SLOTS</span><span class="feature-value" id="slotStatus">0/3</span><span class="feature-muted">Slot karakter tersedia</span></div>
 </div>
 <section class="ucp-area" aria-label="Verifikasi UCP">
@@ -578,7 +578,7 @@ button, a, input, select, textarea { touch-action: manipulation; }
 </div>
 </section>
 <form id="loginForm">
-<div class="field"><div class="labelrow"><label for="username">UCP ACCOUNT</label><span class="hint">Linked by server</span></div><div class="control"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.5-4 3.2-6 8-6s7.5 2 8 6"/></svg><input id="username" name="username" type="text" placeholder="Nama akun ditentukan server" autocomplete="username" aria-describedby="accountIdentityNote" readonly><span id="accountIdentityNote" class="field-note">Identitas UCP mengikuti akun SA-MP yang sedang terhubung.</span></div></div>
+<div class="field"><div class="labelrow"><label for="username">UCP ACCOUNT</label><span class="hint">Linked by server</span></div><div class="control"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.5-4 3.2-6 8-6s7.5 2 8 6"/></svg><input id="username" name="username" type="text" placeholder="Nama akun ditentukan server" autocomplete="username" aria-describedby="accountIdentityNote" readonly><span id="accountIdentityNote"></span></div></div>
 <div class="field"><div class="labelrow"><label for="password">PASSWORD</label><span class="hint">Keep it private</span></div><div class="control"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required><button class="reveal" type="button" id="toggle">SHOW</button></div></div>
 <div class="options"><label class="remember"><input id="remember" type="checkbox"> Remember account</label><a class="help" href="#" id="help">Need help?</a></div>
 <div class="actions"><button class="login" type="submit">LOGIN TO SERVER&nbsp; ↗</button><a class="helpbtn" href="#" id="helpIcon" aria-label="Help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.2 1-1.8 1.4-1.8 3"/><path d="M12 17.5h.01"/></svg></a></div><p class="message" id="message" role="status">Pastikan detail akun kamu benar sebelum masuk.</p><p class="security-note" id="loginSecurityNote">Proteksi percobaan login dikelola oleh server.</p>
@@ -746,6 +746,7 @@ if(bridge()){
     if(result==='ok'){regStatus.textContent='Karakter berhasil dibuat! Server akan menempatkan kamu ke kota.';regStatus.style.color='#75d6ff';setTimeout(()=>regClose(),350);}
     else if(result==='name_taken')regStatus.textContent='Nama karakter sudah digunakan.';
     else if(result==='invalid_skin')regStatus.textContent='Pilihan tampilan tidak valid. Muat ulang daftar skin.';
+    else if(result==='save_failed')regStatus.textContent='Karakter gagal disimpan ke database. Silakan coba lagi.';
     else regStatus.textContent='Karakter gagal dibuat. Silakan coba kembali.';
   });
 }
@@ -858,12 +859,22 @@ document.getElementById('helpIcon').addEventListener('click',e=>{e.preventDefaul
 try { const saved=localStorage.getItem('fdrp_account'); if(saved){document.getElementById('remember').checked=true;} } catch(e) {}
 
 if(bridge()){
+  cef.on('fdrp_account_identity',identity=>{
+    const value=typeof identity==='string'?identity:(identity&&identity.ucp)||'';
+    if(value){
+      user.value=value;
+      user.placeholder=value;
+      document.getElementById('accountIdentityNote').textContent='UCP aktif terhubung dari akun SA-MP.';
+    }
+  });
   cef.on('fdrp_auth_mode',mode=>{
     if(mode==='verify'){
+      setAccountState({status:'pending',note:'Akun terhubung; password belum dibuat'});
       message.textContent='Masukkan kode BOT UCP untuk melanjutkan pendaftaran.';
       ucpPanel.hidden=false; ucpToggle.setAttribute('aria-expanded','true');
       ucpTriggerLabel.innerHTML='TUTUP <b>−</b>';
     } else if(mode==='login'){
+      setAccountState({status:'active',note:'Password akun terdeteksi server'});
       // The server has loaded a password for this UCP. Do not offer the
       // registration flow again on the next connection.
       accountAlreadyRegistered=true;
@@ -930,8 +941,8 @@ let serverMaintenance=false,lastLocationData=null,selectedSpawnId=0;
 function setAccountState(data){
  data=data||{};const status=String(data.status||'active').toLowerCase();
  const el=document.getElementById('accountStatus');
- const label=status==='banned'?'BANNED':status==='suspended'?'SUSPENDED':'ACTIVE';
- el.innerHTML='<i class="status-dot '+(status==='banned'?'banned':status==='suspended'?'suspended':'')+'"></i>'+label;
+ const label=status==='banned'?'BANNED':status==='suspended'?'SUSPENDED':status==='pending'?'PENDING':'ACTIVE';
+ el.innerHTML='<i class="status-dot '+(status==='banned'?'banned':status==='suspended'?'suspended':status==='pending'?'pending':'')+'"></i>'+label;
  document.getElementById('accountStatusNote').textContent=data.reason||data.note||'Status akun terverifikasi server';
 }
 function setMaintenance(data){
