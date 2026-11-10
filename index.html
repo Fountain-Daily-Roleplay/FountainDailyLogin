@@ -730,7 +730,12 @@ function renderServerSkins(list){
 if(bridge()){
   cef.on('fdrp_register_result',result=>{
     const submit=document.getElementById('regAccountNext');submit.disabled=false;
-    if(result==='ok'){regShowStep(2);regStatus.textContent='Password berhasil disimpan. Sekarang buat karakter IC kamu.';regStatus.style.color='#75d6ff';}
+    if(result==='ok'){
+      accountAlreadyRegistered=true;
+      registerButton.classList.add('is-locked');
+      registerButton.setAttribute('aria-disabled','true');
+      regShowStep(2);regStatus.textContent='Password berhasil disimpan. Sekarang buat karakter IC kamu.';regStatus.style.color='#75d6ff';
+    }
     else if(result==='already_registered')regStatus.textContent='Akun sudah memiliki password. Silakan login.';
     else if(result==='too_short')regStatus.textContent='Password minimal 6 karakter.';
     else if(result==='invalid_password')regStatus.textContent='Format password tidak valid.';
@@ -832,7 +837,7 @@ ucpToggle.addEventListener('click',e=>{
 registerButton.addEventListener('click',e=>{
  if(accountAlreadyRegistered){
   e.preventDefault();e.stopImmediatePropagation();
-  showFdrpToast('PLAYER BARU? BUAT AKUN & KARAKTER ↗');
+  showFdrpToast('Akun ini sudah terdaftar. Silakan login menggunakan password akun.');
  }
 },true);
 if(bridge()){
@@ -859,7 +864,19 @@ if(bridge()){
       message.textContent='Masukkan kode BOT UCP untuk melanjutkan pendaftaran.';
       ucpPanel.hidden=false; ucpToggle.setAttribute('aria-expanded','true');
       ucpTriggerLabel.innerHTML='TUTUP <b>−</b>';
-    } else if(mode==='login') message.textContent='Silakan masuk dengan akun karakter yang sedang digunakan di server.';
+    } else if(mode==='login'){
+      // The server has loaded a password for this UCP. Do not offer the
+      // registration flow again on the next connection.
+      accountAlreadyRegistered=true;
+      registerButton.classList.add('is-locked');
+      registerButton.setAttribute('aria-disabled','true');
+      message.textContent='Akun sudah terdaftar. Silakan login dengan password kamu.';
+    } else if(mode==='register'){
+      accountAlreadyRegistered=false;
+      registerButton.classList.remove('is-locked');
+      registerButton.setAttribute('aria-disabled','false');
+      message.textContent='Buat kata sandi akun untuk melanjutkan.';regOpen();
+    }
   });
   cef.on('fdrp_login_result',result=>{
     if(result==='ok'){showLoading('LOGIN BERHASIL','Mengambil data karakter akun…');message.textContent='Login berhasil. Memuat daftar karakter…';message.style.color='#75d6ff';if(bridge())cef.emit('fdrp_request_characters');}
