@@ -100,23 +100,63 @@ label{font-size:8px;letter-spacing:.16em}
  .bot-row input,.verify{height:31px}.bottom{margin-top:7px}
 }
 
+
+/* New-player registration flow */
+.register-open{width:100%;height:39px;margin-top:10px;border:1px solid rgba(110,205,255,.3);border-radius:10px;background:rgba(20,125,190,.12);color:#aee6ff;font:800 8px Inter,sans-serif;letter-spacing:.16em;cursor:pointer;transition:.2s}
+.register-open:hover{background:rgba(20,145,220,.24);border-color:#70d5ff;transform:translateY(-1px)}
+.reg-overlay{position:fixed;z-index:20;inset:0;display:none;place-items:center;padding:14px;background:rgba(1,7,14,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:auto}
+.reg-overlay.show{display:grid}
+.reg-card{width:min(94vw,650px);max-height:94vh;overflow:auto;border:1px solid rgba(111,204,255,.34);border-radius:19px;background:linear-gradient(145deg,rgba(6,25,43,.98),rgba(3,13,25,.98));box-shadow:0 25px 90px #0009;padding:clamp(17px,3vw,27px);animation:panelIn .25s ease both}
+.reg-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:17px}
+.reg-kicker{font-size:8px;color:#8ce7ff;font-weight:900;letter-spacing:.2em}
+.reg-close{width:30px;height:30px;border:1px solid #ffffff24;border-radius:8px;background:#ffffff08;color:#c9eaff;font-size:17px;cursor:pointer}
+.reg-progress{display:flex;gap:6px;margin:0 0 18px}
+.reg-progress span{height:3px;flex:1;border-radius:9px;background:#ffffff18}
+.reg-progress span.active{background:linear-gradient(90deg,#168de9,#8ce7ff);box-shadow:0 0 10px #168de955}
+.reg-card h2{font-size:clamp(20px,3vw,26px);margin:0 0 6px;letter-spacing:-.05em}
+.reg-desc{font-size:9px;color:#9db5cb;line-height:1.6;margin:0 0 18px}
+.reg-field{margin:0 0 13px}
+.reg-field label{display:block;margin:0 0 7px}
+.reg-input{width:100%;height:42px;padding:0 12px;border:1px solid rgba(126,193,239,.23);border-radius:9px;outline:0;background:#010b16;color:#fff;font:500 11px Inter,sans-serif;color-scheme:dark}
+.reg-input:focus{border-color:#72d7ff;box-shadow:0 0 0 3px #159cf322}
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.reg-genders{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:7px 0 16px}
+.reg-gender{height:43px;border:1px solid #8abfe533;border-radius:9px;background:#ffffff08;color:#c9e7fb;font:800 9px Inter,sans-serif;cursor:pointer}
+.reg-gender.selected{border-color:#67ceff;background:#168de929;color:#fff;box-shadow:0 0 0 2px #159cf322}
+.skin-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-height:220px;overflow:auto;padding:2px}
+.skin-option{min-height:85px;border:1px solid #8abfe52a;border-radius:10px;background:linear-gradient(150deg,#0d2940,#071725);color:#d9efff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;padding:8px}
+.skin-option.selected{border-color:#7bdcff;background:#0b4265;box-shadow:0 0 0 2px #159cf322}
+.skin-avatar{width:34px;height:38px;border-radius:9px 9px 7px 7px;background:linear-gradient(180deg,#8ce7ff55,#238cff22);border:1px solid #8ce7ff66;display:grid;place-items:center;font-size:19px}
+.skin-option strong{font-size:9px}.skin-option small{font-size:7px;color:#91abc1}
+.skin-empty{grid-column:1/-1;padding:17px;border:1px dashed #8abfe544;border-radius:10px;color:#91abc1;text-align:center;font-size:9px;line-height:1.6}
+.reg-actions{display:flex;gap:9px;margin-top:18px}
+.reg-btn{height:42px;flex:1;border:1px solid #8ce7ff55;border-radius:9px;background:linear-gradient(100deg,#0876c9,#159cf3);color:#fff;font:900 9px Inter,sans-serif;letter-spacing:.12em;cursor:pointer}
+.reg-btn.secondary{flex:0 0 35%;background:#ffffff08;border-color:#ffffff25;color:#b5cadd}
+.reg-btn:disabled{opacity:.4;cursor:not-allowed}
+.reg-status{min-height:15px;margin:10px 0 0;text-align:center;font-size:8px;color:#9bb6ca;line-height:1.5}
+.reg-step[hidden]{display:none}
+@media(max-width:420px){.reg-grid{grid-template-columns:1fr}.skin-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.reg-card{padding:16px}.reg-overlay{padding:7px}}
+
 </style></head><body>
 <div class="ambient"><div class="orb a"></div><div class="orb b"></div></div>
 <main class="layout">
 <section class="identity"><img class="logo" src="assets/logo.png" alt="Fountain Daily Roleplay"><div class="brand">FOUNTAIN DAILY<span>ROLEPLAY </span></div><p class="tagline">Your character. Your journey. Your story.<br>Mulai petualangan roleplay kamu sekarang.</p><div class="server-chip"><i></i> FDRP PORTAL</div></section>
 <section class="formside">
-<div class="head"><span class="kicker">PLAYER AUTHENTICATION</span><span class="secure">◈ SECURE LOGIN</span></div><h1>Welcome Back.</h1><p class="sub">Masuk dengan akun karakter Fountain Daily Roleplay kamu.</p>
+<div class="head"><span class="kicker">PLAYER AUTHENTICATION</span><span class="secure">â—ˆ SECURE LOGIN</span></div><h1>Welcome Back.</h1><p class="sub">Masuk dengan akun karakter Fountain Daily Roleplay kamu.</p>
 <form id="loginForm">
 <div class="field"><div class="labelrow"><label for="username">USERNAME / CHARACTER NAME</label><span class="hint">Required</span></div><div class="control"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.5-4 3.2-6 8-6s7.5 2 8 6"/></svg><input id="username" name="username" type="text" placeholder="Masukan Nama Ucp" autocomplete="username" required></div></div>
 <div class="field"><div class="labelrow"><label for="password">PASSWORD</label><span class="hint">Keep it private</span></div><div class="control"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required><button class="reveal" type="button" id="toggle">SHOW</button></div></div>
 <div class="options"><label class="remember"><input id="remember" type="checkbox"> Remember account</label><a class="help" href="#" id="help">Need help?</a></div>
-<div class="actions"><button class="login" type="submit">LOGIN TO SERVER&nbsp; ↗</button><a class="helpbtn" href="#" id="helpIcon" aria-label="Help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.2 1-1.8 1.4-1.8 3"/><path d="M12 17.5h.01"/></svg></a></div><p class="message" id="message" role="status">Pastikan detail akun kamu benar sebelum masuk.</p>
+<div class="actions"><button class="login" type="submit">LOGIN TO SERVER&nbsp; â†—</button><a class="helpbtn" href="#" id="helpIcon" aria-label="Help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.2 1-1.8 1.4-1.8 3"/><path d="M12 17.5h.01"/></svg></a></div><p class="message" id="message" role="status">Pastikan detail akun kamu benar sebelum masuk.</p>
 </form>
+
+<button class="register-open" id="registerOpen" type="button">PLAYER BARU? BUAT AKUN & KARAKTER&nbsp; â†—</button>
+
 <section class="ucp-area" aria-label="Verifikasi UCP">
 <button class="ucp-trigger" id="ucpToggle" type="button" aria-expanded="false" aria-controls="ucpPanel">
-  <span class="ucp-trigger-icon" aria-hidden="true">⌘</span>
+  <span class="ucp-trigger-icon" aria-hidden="true">âŒ˜</span>
   <span class="ucp-trigger-copy"><strong>KODE BOT UCP</strong><small>Punya kode dari BOT UCP? Masukkan di sini.</small></span>
-  <span class="ucp-trigger-action" id="ucpTriggerLabel">BUKA <b>＋</b></span>
+  <span class="ucp-trigger-action" id="ucpTriggerLabel">BUKA <b>ï¼‹</b></span>
 </button>
 <div class="ucp-panel" id="ucpPanel" hidden>
   <div class="bot-head"><span class="bot-title">KODE BOT UCP</span><span class="bot-tag">PLAYER VERIFICATION</span></div>
@@ -125,9 +165,37 @@ label{font-size:8px;letter-spacing:.16em}
   <p class="bot-status" id="botStatus" role="status">Kode akan diverifikasi oleh sistem UCP server.</p>
 </div>
 </section>
-<div class="bottom"><span><b>FDRP</b> · FOUNTAIN DAILY RP</span><span>SA-MP · UCP</span></div>
+<div class="bottom"><span><b>FDRP</b> Â· FOUNTAIN DAILY RP</span><span>SA-MP Â· UCP</span></div>
 </section></main>
+
+<div class="reg-overlay" id="regOverlay" role="dialog" aria-modal="true" aria-labelledby="regTitle">
+  <section class="reg-card">
+    <div class="reg-top"><span class="reg-kicker">FOUNTAIN DAILY ROLEPLAY Â· NEW PLAYER</span><button class="reg-close" id="regClose" type="button" aria-label="Tutup">Ã—</button></div>
+    <div class="reg-progress" aria-hidden="true"><span id="regBar1" class="active"></span><span id="regBar2"></span><span id="regBar3"></span></div>
+    <section class="reg-step" id="regStep1">
+      <h2 id="regTitle">Buat Akun Baru</h2><p class="reg-desc">Buat kata sandi akun dan isi tanggal lahir kamu untuk memulai perjalanan roleplay.</p>
+      <div class="reg-field"><label for="regPassword">CREATE PASSWORD</label><input class="reg-input" id="regPassword" type="password" minlength="6" maxlength="64" autocomplete="new-password" placeholder="Minimal 6 karakter"></div>
+      <div class="reg-field"><label for="regPassword2">KONFIRMASI PASSWORD</label><input class="reg-input" id="regPassword2" type="password" minlength="6" maxlength="64" autocomplete="new-password" placeholder="Ulangi kata sandi"></div>
+      <div class="reg-field"><label for="regBirth">TANGGAL LAHIR</label><input class="reg-input" id="regBirth" type="date"></div>
+      <div class="reg-actions"><button class="reg-btn secondary" type="button" id="regCancel1">BATAL</button><button class="reg-btn" type="button" id="regAccountNext">LANJUTKAN â†—</button></div>
+    </section>
+    <section class="reg-step" id="regStep2" hidden>
+      <h2>Buat Karakter IC</h2><p class="reg-desc">Tentukan identitas karakter yang akan kamu gunakan di dalam kota. Gunakan format nama roleplay yang sesuai aturan server.</p>
+      <div class="reg-field"><label for="regCharacter">NAMA KARAKTER IC</label><input class="reg-input" id="regCharacter" type="text" maxlength="24" autocomplete="off" placeholder="Contoh: John_Smith"></div>
+      <div class="reg-field"><label>JENIS KELAMIN</label><div class="reg-genders"><button type="button" class="reg-gender selected" data-gender="male">â™‚ &nbsp; LAKI-LAKI</button><button type="button" class="reg-gender" data-gender="female">â™€ &nbsp; PEREMPUAN</button></div></div>
+      <div class="reg-actions"><button class="reg-btn secondary" type="button" id="regBack2">KEMBALI</button><button class="reg-btn" type="button" id="regCharacterNext">PILIH TAMPILAN â†—</button></div>
+    </section>
+    <section class="reg-step" id="regStep3" hidden>
+      <h2>Pilih Tampilan Karakter</h2><p class="reg-desc">Pilih skin karakter yang disediakan oleh server. Daftar pilihan akan dimuat langsung dari server.</p>
+      <div class="skin-grid" id="regSkinGrid"><div class="skin-empty">Meminta daftar tampilan karakter dari serverâ€¦</div></div>
+      <div class="reg-actions"><button class="reg-btn secondary" type="button" id="regBack3">KEMBALI</button><button class="reg-btn" type="button" id="regFinish" disabled>BUAT KARAKTER</button></div>
+    </section>
+    <p class="reg-status" id="regStatus" role="status">Data pendaftaran akan dikirim ke server melalui CEF.</p>
+  </section>
+</div>
+
 <script>
+
 const pass=document.getElementById('password');
 const user=document.getElementById('username');
 const message=document.getElementById('message');
@@ -137,13 +205,103 @@ const ucpTriggerLabel=document.getElementById('ucpTriggerLabel');
 const botStatus=document.getElementById('botStatus');
 const bridge=()=>window.cef&&typeof window.cef.emit==='function'&&typeof window.cef.on==='function';
 
+// Registration UI â†” Pawn/CEF bridge.
+// Event contract: fdrp_register_account(password, YYYY-MM-DD),
+// fdrp_create_character(icName, gender, skinId), fdrp_request_skins().
+const regOverlay=document.getElementById('regOverlay');
+const regStatus=document.getElementById('regStatus');
+let regGender='male', regSelectedSkin=null, regSkins=[];
+function regShowStep(step){
+  [1,2,3].forEach(n=>{
+    document.getElementById('regStep'+n).hidden=n!==step;
+    document.getElementById('regBar'+n).classList.toggle('active',n<=step);
+  });
+  regStatus.textContent=step===3?'Pilih salah satu tampilan karakter dari daftar server.':'Pastikan data yang kamu masukkan sudah benar.';
+}
+function regOpen(){
+  regOverlay.classList.add('show');regShowStep(1);
+  regStatus.textContent=bridge()?'Siap membuat akun baru.':'Buka halaman ini melalui CEF di dalam game untuk mendaftar.';
+}
+function regClose(){regOverlay.classList.remove('show');}
+document.getElementById('registerOpen').addEventListener('click',regOpen);
+document.getElementById('regClose').addEventListener('click',regClose);
+document.getElementById('regCancel1').addEventListener('click',regClose);
+regOverlay.addEventListener('click',e=>{if(e.target===regOverlay)regClose();});
+document.querySelectorAll('.reg-gender').forEach(btn=>btn.addEventListener('click',()=>{
+  regGender=btn.dataset.gender;
+  document.querySelectorAll('.reg-gender').forEach(b=>b.classList.toggle('selected',b===btn));
+}));
+document.getElementById('regAccountNext').addEventListener('click',()=>{
+  const a=document.getElementById('regPassword').value,b=document.getElementById('regPassword2').value,dob=document.getElementById('regBirth').value;
+  if(a.length<6){regStatus.textContent='Password minimal 6 karakter.';return;}
+  if(a!==b){regStatus.textContent='Konfirmasi password tidak sama.';return;}
+  if(!dob){regStatus.textContent='Tanggal lahir wajib diisi.';return;}
+  if(!bridge()){regStatus.textContent='Pendaftaran hanya dapat diproses melalui CEF di dalam game.';return;}
+  regStatus.textContent='Mengirim data akun ke serverâ€¦';
+  cef.emit('fdrp_register',a);
+});
+document.getElementById('regCharacterNext').addEventListener('click',()=>{
+  const name=document.getElementById('regCharacter').value.trim();
+  if(!/^[A-Za-z][A-Za-z_]{2,23}$/.test(name)){regStatus.textContent='Nama IC 3â€“24 karakter. Gunakan huruf dan underscore, contoh John_Smith.';return;}
+  regShowStep(3);regSelectedSkin=null;document.getElementById('regFinish').disabled=true;
+  document.getElementById('regSkinGrid').innerHTML='<div class="skin-empty">Meminta daftar tampilan karakter dari serverâ€¦</div>';
+  if(bridge())cef.emit('fdrp_request_skins',regGender);
+  else document.getElementById('regSkinGrid').innerHTML='<div class="skin-empty">Daftar skin hanya bisa dimuat saat terhubung ke server.</div>';
+});
+document.getElementById('regBack2').addEventListener('click',()=>regShowStep(1));
+document.getElementById('regBack3').addEventListener('click',()=>regShowStep(2));
+document.getElementById('regFinish').addEventListener('click',()=>{
+  const name=document.getElementById('regCharacter').value.trim();
+  if(regSelectedSkin===null){regStatus.textContent='Pilih tampilan karakter terlebih dahulu.';return;}
+  if(!bridge()){regStatus.textContent='Tidak terhubung ke server.';return;}
+  regStatus.textContent='Mengirim karakter ke serverâ€¦';
+  cef.emit('fdrp_create_character',name,regGender,regSelectedSkin);
+});
+function renderServerSkins(list){
+  const grid=document.getElementById('regSkinGrid');regSkins=Array.isArray(list)?list:[];
+  grid.innerHTML='';
+  if(!regSkins.length){grid.innerHTML='<div class="skin-empty">Server belum mengirim pilihan tampilan untuk gender ini. Coba kembali atau hubungi admin.</div>';return;}
+  regSkins.forEach(item=>{
+    const id=typeof item==='object'?item.id:item;
+    const name=typeof item==='object'?(item.name||('Skin '+id)):('Skin '+id);
+    const description=typeof item==='object'?(item.description||'Tersedia dari server'):'Tersedia dari server';
+    const button=document.createElement('button');button.type='button';button.className='skin-option';
+    const avatar=document.createElement('span');avatar.className='skin-avatar';avatar.textContent='â™™';
+    const title=document.createElement('strong');title.textContent=name;
+    const detail=document.createElement('small');detail.textContent='ID '+id+' Â· '+description;
+    button.append(avatar,title,detail);
+    button.addEventListener('click',()=>{
+      regSelectedSkin=id;grid.querySelectorAll('.skin-option').forEach(el=>el.classList.toggle('selected',el===button));
+      document.getElementById('regFinish').disabled=false;regStatus.textContent='Tampilan '+name+' dipilih.';
+    });
+    grid.appendChild(button);
+  });
+}
+if(bridge()){
+  cef.on('fdrp_register_result',result=>{
+    if(result==='ok'){regStatus.textContent='Kata sandi berhasil dibuat. Lanjutkan proses karakter di dalam game.';regStatus.style.color='#75d6ff';}
+    else if(result==='too_short')regStatus.textContent='Password minimal 6 karakter.';
+    else if(result==='invalid_password')regStatus.textContent='Password harus berisi format yang valid.';
+    else if(result==='already_registered')regStatus.textContent='Akun sudah terdaftar. Silakan login.';
+    else regStatus.textContent='Pendaftaran akun gagal. Periksa data atau hubungi admin.';
+  });
+  cef.on('fdrp_skin_list',renderServerSkins);
+  cef.on('fdrp_character_result',result=>{
+    if(result==='created'){regStatus.textContent='Karakter berhasil dibuat! Selamat bermain.';regStatus.style.color='#75d6ff';}
+    else if(result==='name_taken')regStatus.textContent='Nama karakter sudah digunakan.';
+    else if(result==='invalid_skin')regStatus.textContent='Pilihan tampilan tidak valid. Muat ulang daftar skin.';
+    else regStatus.textContent='Karakter gagal dibuat. Silakan coba kembali.';
+  });
+}
+
+
 document.getElementById('toggle').addEventListener('click',function(){
   const reveal=pass.type==='password'; pass.type=reveal?'text':'password'; this.textContent=reveal?'HIDE':'SHOW';
 });
 ucpToggle.addEventListener('click',()=>{
   const opening=ucpPanel.hidden; ucpPanel.hidden=!opening;
   ucpToggle.setAttribute('aria-expanded',String(opening));
-  ucpTriggerLabel.innerHTML=opening?'TUTUP <b>−</b>':'BUKA <b>＋</b>';
+  ucpTriggerLabel.innerHTML=opening?'TUTUP <b>âˆ’</b>':'BUKA <b>ï¼‹</b>';
   if(opening) setTimeout(()=>document.getElementById('ucpCode').focus(),80);
 });
 const help=()=>{message.textContent='Hubungi administrator server untuk bantuan akun.';};
@@ -156,11 +314,12 @@ if(bridge()){
     if(mode==='verify'){
       message.textContent='Masukkan kode BOT UCP untuk melanjutkan pendaftaran.';
       ucpPanel.hidden=false; ucpToggle.setAttribute('aria-expanded','true');
-      ucpTriggerLabel.innerHTML='TUTUP <b>−</b>';
+      ucpTriggerLabel.innerHTML='TUTUP <b>âˆ’</b>';
     } else if(mode==='login') message.textContent='Silakan masuk dengan akun karakter yang sedang digunakan di server.';
+    else if(mode==='register'){message.textContent='Buat kata sandi akun untuk melanjutkan.';regOpen();}
   });
   cef.on('fdrp_login_result',result=>{
-    if(result==='ok'){message.textContent='Login berhasil. Memuat karakter…';message.style.color='#75d6ff';}
+    if(result==='ok'){message.textContent='Login berhasil. Memuat karakterâ€¦';message.style.color='#75d6ff';}
     else if(result==='bad_password'){message.textContent='Kata sandi salah. Periksa kembali.';message.style.color='#ff9b9b';pass.value='';pass.focus();}
     else if(result==='locked'){message.textContent='Terlalu banyak percobaan. Koneksi akan ditutup.';message.style.color='#ff9b9b';}
     else if(result==='name_mismatch'){message.textContent='Nama akun harus sama dengan nama karakter yang digunakan untuk masuk ke server.';message.style.color='#ffbd78';}
@@ -181,7 +340,7 @@ document.getElementById('loginForm').addEventListener('submit',e=>{
   if(!name||!secret){message.textContent='Isi nama karakter dan kata sandi.';return;}
   if(/\s/.test(name)||/\s/.test(secret)){message.textContent='Nama dan kata sandi tidak boleh mengandung spasi.';return;}
   if(document.getElementById('remember').checked){try{localStorage.setItem('fdrp_account',name);}catch(e){}}
-  message.textContent='Mengirim permintaan login ke server…';message.style.color='#75d6ff';
+  message.textContent='Mengirim permintaan login ke serverâ€¦';message.style.color='#75d6ff';
   cef.emit('fdrp_login',name,secret);
 });
 
@@ -189,7 +348,7 @@ document.getElementById('verifyCode').addEventListener('click',()=>{
   const code=document.getElementById('ucpCode').value.trim();
   if(!code){botStatus.textContent='Masukkan kode BOT UCP terlebih dahulu.';botStatus.style.color='#ffc078';return;}
   if(!bridge()){botStatus.textContent='Verifikasi hanya tersedia di dalam game melalui CEF.';return;}
-  botStatus.textContent='Memeriksa kode dengan server…';botStatus.style.color='#75d6ff';
+  botStatus.textContent='Memeriksa kode dengan serverâ€¦';botStatus.style.color='#75d6ff';
   cef.emit('fdrp_verify_code',code);
 });
 </script></body></html>
