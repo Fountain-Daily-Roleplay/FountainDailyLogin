@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="id"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="transparent"><title>Fountain Daily Roleplay | UCP Login</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -358,12 +358,212 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,.layout::-webkit-scrollbar,
  width:0!important;height:0!important;display:none!important;
 }
 
-</style></head><body>
+
+/* Prevent page scrolling when user focuses/enters UCP bot code */
+@media (min-width:481px){
+ html,body{height:100%;min-height:100%;overflow:hidden!important}
+ body{display:flex!important;align-items:center!important;justify-content:center!important}
+ .layout{max-height:94vh!important;overflow:hidden!important}
+ .formside{overflow:hidden!important}
+}
+@media (max-width:480px){
+ html,body{height:100%;min-height:100%;overflow:hidden!important}
+ body{display:flex!important;align-items:center!important;justify-content:center!important}
+ .layout{max-height:96dvh!important;height:auto!important;overflow:hidden!important}
+ .formside{overflow:hidden!important}
+ .ucp-area,.ucp-panel{max-height:none!important;overflow:visible!important}
+}
+/* Keep UCP entry visible and in place */
+.ucp-area{scroll-margin:0!important}
+.ucp-trigger,.bot-row input,.verify{scroll-margin:0!important}
+
+
+/* Character selection and spawn location screens */
+.char-overlay,.spawn-overlay{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:14px;background:rgba(0,5,12,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.char-overlay.show,.spawn-overlay.show{display:flex}
+.char-card,.spawn-card{width:min(94vw,560px);max-height:92dvh;overflow:auto;padding:clamp(16px,3vw,26px);border:1px solid rgba(115,205,255,.32);border-radius:20px;background:linear-gradient(145deg,#071b2d,#07111f 70%,#09213a);box-shadow:0 25px 80px #0008,inset 0 1px #ffffff15;color:#eff8ff}
+.char-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.char-kicker{font-size:9px;letter-spacing:.22em;color:#78d7ff;font-weight:900}.char-head h2{margin:5px 0 0;font-size:clamp(22px,5vw,30px);letter-spacing:-.04em}.char-close{width:34px;height:34px;border:1px solid #ffffff20;border-radius:9px;background:#ffffff08;color:#bfeaff;font-size:22px;cursor:pointer}
+.char-note{font-size:11px;color:#9bb5cc;line-height:1.6;margin:12px 0 16px}.char-list{display:grid;gap:9px;max-height:44dvh;overflow:auto}
+.char-item{display:grid;grid-template-columns:46px minmax(0,1fr) auto;align-items:center;gap:10px;padding:11px;border:1px solid #7ccfff25;border-radius:12px;background:#ffffff05;color:#eaf7ff;text-align:left;cursor:pointer}
+.char-item:hover,.char-item.selected{border-color:#5ecaff88;background:#168bd51c}.char-avatar{display:grid;place-items:center;width:44px;height:44px;border-radius:10px;background:linear-gradient(145deg,#0c5c91,#122f50);color:#8ce4ff;font-size:20px}.char-item strong{display:block;font-size:12px;overflow-wrap:anywhere}.char-item small{display:block;color:#86a5bf;font-size:9px;margin-top:4px}.char-item .select-tag{font-size:8px;color:#8ce4ff;letter-spacing:.1em}
+.char-empty{padding:20px;text-align:center;color:#87a5bd;font-size:11px;border:1px dashed #ffffff20;border-radius:12px}
+.char-actions{display:flex;margin-top:12px}.char-btn{width:100%;min-height:43px;border:1px solid #56c4ff55;border-radius:11px;background:linear-gradient(100deg,#0875c6,#159cf3);color:white;font-size:10px;font-weight:900;letter-spacing:.08em;cursor:pointer}.char-btn:disabled{opacity:.4;cursor:not-allowed}.char-btn span{margin-left:10px;padding:4px 7px;border-radius:20px;background:#001c3560;font-size:9px}
+.char-status{min-height:14px;margin:10px 0 0;text-align:center;color:#8caac3;font-size:10px}
+.spawn-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
+.spawn-option{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0;padding:17px 8px;border:1px solid #7ccfff25;border-radius:13px;background:#ffffff05;color:#eaf7ff;cursor:pointer;transition:.18s}
+.spawn-option:hover:not(:disabled){transform:translateY(-2px);border-color:#61ceff88;background:#148bd51a}.spawn-option:disabled{opacity:.42;cursor:not-allowed;filter:saturate(.55)}.spawn-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:13px;background:linear-gradient(145deg,#0c5c91,#122f50);font-size:24px;color:#8ce4ff}.spawn-option strong{font-size:11px;text-align:center}.spawn-option small{font-size:8px;color:#8ba9c1;text-align:center}
+@media(max-width:420px){.spawn-list{gap:6px}.spawn-option{padding:13px 5px}.spawn-icon{width:40px;height:40px}.char-item{grid-template-columns:38px minmax(0,1fr) auto;padding:9px}.char-avatar{width:36px;height:36px}}
+
+
+/* Toast + server-controlled button lock state */
+.fdrp-toast{position:fixed;z-index:2000;left:50%;bottom:22px;transform:translate(-50%,18px);opacity:0;pointer-events:none;width:max-content;max-width:min(92vw,480px);padding:12px 16px;border:1px solid #69ceff55;border-radius:12px;background:linear-gradient(120deg,#08233aee,#061321f2);box-shadow:0 12px 38px #0007;color:#c9efff;font-size:11px;font-weight:700;text-align:center;line-height:1.5;transition:opacity .2s,transform .2s}
+.fdrp-toast.show{opacity:1;transform:translate(-50%,0)}
+.ucp-trigger.is-locked,.register-open.is-locked{opacity:.58;filter:saturate(.65);cursor:not-allowed!important}
+.ucp-trigger.is-locked:hover,.register-open.is-locked:hover{transform:none!important}
+
+
+/* FDRP account intelligence and transition overlays */
+.feature-strip{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0 0 12px}
+.feature-card{min-width:0;padding:10px 12px;border:1px solid #75cfff25;border-radius:11px;background:linear-gradient(120deg,#0b2943aa,#061727bb)}
+.feature-label{display:block;color:#80cfee;font-size:7px;font-weight:900;letter-spacing:.15em;margin-bottom:5px}
+.feature-value{display:block;color:#eaf7ff;font-size:10px;font-weight:800;overflow-wrap:anywhere}
+.feature-muted{display:block;color:#8faac1;font-size:8px;margin-top:4px;line-height:1.45}
+.status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#35df9b;margin-right:6px;box-shadow:0 0 9px currentColor}
+.status-dot.banned{background:#ff626f}.status-dot.suspended{background:#ffbd58}.status-dot.maintenance{background:#ffbd58}
+.last-location{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px;padding:9px 11px;border:1px solid #75cfff24;border-radius:10px;background:#ffffff06}
+.last-location span{font-size:8px;color:#9cb5ca;line-height:1.5}.last-location b{color:#eaf7ff}
+.last-location button{border:1px solid #5ecaff66;border-radius:8px;background:#168de926;color:#a9e6ff;padding:8px 10px;font-size:8px;font-weight:900;cursor:pointer}
+.char-preview{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid #75cfff30;border-radius:13px;background:linear-gradient(110deg,#0c3858aa,#071827cc);margin:12px 0}
+.preview-skin{width:62px;height:68px;flex:0 0 auto;display:grid;place-items:center;border:1px solid #80dfff55;border-radius:12px;background:radial-gradient(circle at 50% 25%,#54caff55,#0b2946);font-size:25px;color:#a9eaff}
+.preview-copy{min-width:0}.preview-copy strong{display:block;font-size:12px;overflow-wrap:anywhere}.preview-copy small{display:block;color:#91abc1;font-size:8px;margin-top:5px}
+.loading-overlay{position:fixed;z-index:3000;inset:0;display:none;place-items:center;padding:20px;background:radial-gradient(circle at center,#0b3150f5,#020914f7 70%);backdrop-filter:blur(12px)}
+.loading-overlay.show{display:grid;animation:loadFade .25s ease both}
+.loading-box{text-align:center;width:min(88vw,380px)}
+.loading-mark{width:72px;height:72px;margin:0 auto 18px;border:2px solid #69d5ff55;border-top-color:#8ce7ff;border-radius:50%;display:grid;place-items:center;animation:spinLoad 1s linear infinite;box-shadow:0 0 28px #159cf344}
+.loading-mark span{font-size:23px;animation:spinLoad 1s linear infinite reverse}
+.loading-box h2{margin:0;color:#effaff;font-size:20px;letter-spacing:.04em}
+.loading-box p{color:#9bb8ce;font-size:10px;line-height:1.6;margin:9px 0 17px}
+.loading-track{height:4px;border-radius:9px;background:#ffffff18;overflow:hidden}
+.loading-track i{display:block;width:35%;height:100%;border-radius:9px;background:linear-gradient(90deg,#168de9,#8ce7ff);animation:loadingBar 1.4s ease-in-out infinite}
+.maintenance-banner{display:none;margin:0 0 12px;padding:12px;border:1px solid #ffbd5866;border-radius:11px;background:#6b3c142e;color:#ffd99a;font-size:9px;line-height:1.55}
+.maintenance-banner.show{display:block}
+.security-note{font-size:8px;color:#91abc1;margin:7px 0 0;min-height:12px;text-align:left}
+@keyframes spinLoad{to{transform:rotate(360deg)}}@keyframes loadingBar{0%{transform:translateX(-110%)}100%{transform:translateX(310%)}}@keyframes loadFade{from{opacity:0}to{opacity:1}}
+@media(max-width:480px){.feature-strip{gap:6px}.feature-card{padding:8px}.last-location{align-items:flex-start}.preview-skin{width:52px;height:58px}}
+
+
+
+/* ===== FINAL RESPONSIVE FIT: Android phones, tablets and CEF viewports ===== */
+html{min-height:100%;height:auto;scroll-behavior:smooth}
+body{min-height:100svh;height:auto;overflow-x:hidden;overflow-y:auto}
+.layout{min-width:0}
+.char-card,.spawn-card,.reg-card{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+button,a,input{touch-action:manipulation}
+@media screen and (max-width:900px){
+  html,body{height:auto!important;min-height:100svh!important;overflow-x:hidden!important;overflow-y:auto!important}
+  body{display:block!important;padding: max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left))!important}
+  .layout{display:grid!important;width:100%!important;max-width:680px!important;min-height:0!important;max-height:none!important;height:auto!important;margin:0 auto!important;overflow:visible!important;border-radius:clamp(14px,4vw,23px)!important}
+  .identity{display:grid!important;grid-template-columns:clamp(42px,12vw,64px) minmax(0,1fr)!important;grid-template-rows:auto auto!important;gap:5px 11px!important;padding:clamp(12px,3.5vw,20px)!important;text-align:left!important}
+  .logo{grid-column:1;grid-row:1/3;width:clamp(42px,12vw,64px)!important;height:clamp(42px,12vw,64px)!important;align-self:center!important}
+  .brand{grid-column:2;grid-row:1;font-size:clamp(11px,3.4vw,17px)!important;line-height:1.2!important;overflow-wrap:anywhere}
+  .brand span{font-size:clamp(7px,2vw,9px)!important}
+  .tagline{grid-column:2;grid-row:2;display:block!important;margin:0!important;font-size:clamp(8px,2.3vw,10px)!important;line-height:1.45!important}
+  .server-chip{grid-column:1/-1!important;grid-row:3!important;justify-self:start!important;margin:5px 0 0!important;font-size:clamp(7px,1.9vw,9px)!important;padding:6px 10px!important}
+  .formside{display:flex!important;min-width:0!important;width:100%!important;overflow:visible!important;padding:clamp(13px,3.8vw,23px)!important}
+  .head{gap:8px!important;flex-wrap:wrap!important;margin-bottom:clamp(9px,2.5vw,15px)!important}
+  h1{font-size:clamp(22px,6vw,32px)!important}
+  .sub{font-size:clamp(10px,2.8vw,13px)!important;margin-bottom:clamp(10px,3vw,16px)!important}
+  .maintenance-banner{font-size:clamp(9px,2.5vw,11px)!important;padding:clamp(9px,2.8vw,13px)!important}
+  .feature-strip{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}
+  .feature-card{padding:clamp(8px,2.4vw,11px)!important}
+  .feature-label{font-size:clamp(7px,1.9vw,8px)!important}
+  .feature-value{font-size:clamp(9px,2.5vw,11px)!important}
+  .feature-muted{font-size:clamp(8px,2.1vw,9px)!important}
+  .last-location{align-items:center!important;flex-wrap:wrap!important;padding:9px!important}
+  .last-location span{min-width:0;flex:1 1 150px;font-size:9px!important;overflow-wrap:anywhere}
+  .last-location button{min-height:40px!important;padding:9px 12px!important}
+  .ucp-area,.ucp-panel,#loginForm{width:100%!important;min-width:0!important;max-width:100%!important}
+  .ucp-trigger{min-height:54px!important;padding:10px!important;gap:8px!important}
+  .ucp-trigger-copy{min-width:0!important}
+  .ucp-trigger-copy strong{font-size:clamp(9px,2.5vw,11px)!important}
+  .ucp-trigger-copy small{font-size:clamp(8px,2.2vw,9px)!important;line-height:1.4!important}
+  .ucp-trigger-action{font-size:7px!important}
+  .ucp-panel{padding:clamp(9px,2.8vw,14px)!important}
+  .bot-row{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:7px!important}
+  .bot-row input{width:100%!important;min-width:0!important;height:44px!important;font-size:12px!important}
+  .verify{width:auto!important;min-width:92px!important;min-height:44px!important;padding:0 10px!important}
+  .field{margin-bottom:12px!important}
+  .labelrow label{font-size:8px!important}
+  .control{height:48px!important;padding:0 12px!important}
+  .control input{font-size:16px!important;min-width:0!important}
+  .reveal{min-height:36px!important;font-size:9px!important}
+  .options{flex-wrap:wrap!important;margin:3px 0 14px!important}
+  .remember,.help{min-height:36px;display:flex;align-items:center;font-size:11px!important}
+  .remember input{width:17px!important;height:17px!important}
+  .actions{grid-template-columns:minmax(0,1fr) 48px!important;gap:8px!important}
+  .login,.helpbtn{height:48px!important;min-height:48px!important;font-size:10px!important}
+  .register-open{min-height:46px!important;height:auto!important;padding:12px!important;font-size:9px!important}
+  .message,.security-note{font-size:9px!important;line-height:1.5!important}
+  .bottom{gap:8px!important;flex-wrap:wrap!important;font-size:8px!important;line-height:1.5!important}
+  .char-overlay,.spawn-overlay,.reg-overlay{align-items:flex-start!important;justify-content:center!important;overflow-y:auto!important;padding:max(10px,env(safe-area-inset-top)) 10px max(12px,env(safe-area-inset-bottom))!important}
+  .char-card,.spawn-card,.reg-card{width:100%!important;max-width:560px!important;max-height:none!important;margin:auto!important;padding:clamp(13px,3.5vw,20px)!important;border-radius:16px!important;overflow:visible!important}
+  .char-list{max-height:42svh!important;overflow-y:auto!important}
+  .spawn-list{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}
+  .spawn-option{min-height:110px!important;padding:11px 5px!important}
+  .spawn-icon{width:40px!important;height:40px!important}
+  .reg-input{width:100%;min-width:0}
+  .fdrp-toast{bottom:max(14px,env(safe-area-inset-bottom))!important;width:calc(100% - 24px)!important;max-width:480px!important}
+}
+@media screen and (max-width:380px){
+  body{padding: max(7px,env(safe-area-inset-top)) max(7px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(7px,env(safe-area-inset-left))!important}
+  .identity{grid-template-columns:40px minmax(0,1fr)!important;gap:4px 8px!important;padding:10px!important}
+  .logo{width:40px!important;height:40px!important}
+  .brand{font-size:11px!important;letter-spacing:.11em!important}
+  .tagline{font-size:8px!important}
+  .formside{padding:12px 10px!important}
+  .feature-strip{gap:5px!important}
+  .feature-card{padding:7px!important}
+  .last-location{gap:6px!important}
+  .bot-row{grid-template-columns:minmax(0,1fr)!important}
+  .verify{width:100%!important}
+  .actions{grid-template-columns:minmax(0,1fr) 44px!important}
+  .spawn-option strong{font-size:9px!important}
+  .spawn-option small{font-size:7px!important}
+  .char-item{grid-template-columns:34px minmax(0,1fr)!important}
+  .char-item .select-tag{grid-column:2}
+}
+/* Short landscape phones: preserve access to every control via vertical scrolling. */
+@media screen and (max-height:520px) and (orientation:landscape) and (max-width:900px){
+  html,body{height:auto!important;min-height:100svh!important;overflow-y:auto!important}
+  body{padding:8px max(12px,env(safe-area-inset-right)) 10px max(12px,env(safe-area-inset-left))!important}
+  .layout{width:100%!important;max-width:900px!important;max-height:none!important;overflow:visible!important}
+  .identity{grid-template-columns:42px minmax(0,1fr) auto!important;padding:9px 13px!important;gap:4px 9px!important}
+  .logo{grid-column:1;grid-row:1/3;width:40px!important;height:40px!important}
+  .brand{grid-column:2;grid-row:1;font-size:12px!important}
+  .tagline{grid-column:2;grid-row:2;font-size:8px!important}
+  .server-chip{grid-column:3!important;grid-row:1/3!important;align-self:center!important;margin:0!important;white-space:normal!important}
+  .formside{padding:12px 16px!important}
+  .ucp-area{margin-bottom:9px!important}
+  .control,.login,.helpbtn{height:42px!important;min-height:42px!important}
+  .char-card,.spawn-card,.reg-card{max-height:none!important}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+</style>
+<style>
+/* Disable browser pinch/double-tap zoom while preserving vertical scrolling. */
+html, body { touch-action: pan-y; -ms-touch-action: pan-y; }
+button, a, input, select, textarea { touch-action: manipulation; }
+</style>
+<script>
+(function () {
+  // Block multi-touch and browser gesture zoom in mobile browsers/CEF.
+  document.addEventListener('touchstart', function (event) {
+    if (event.touches && event.touches.length > 1) event.preventDefault();
+  }, { passive: false });
+  document.addEventListener('touchmove', function (event) {
+    if (event.touches && event.touches.length > 1) event.preventDefault();
+  }, { passive: false });
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (type) {
+    document.addEventListener(type, function (event) { event.preventDefault(); }, { passive: false });
+  });
+  document.addEventListener('wheel', function (event) {
+    if (event.ctrlKey) event.preventDefault();
+  }, { passive: false });
+})();
+</script>
+
+</head><body>
 <div class="ambient"><div class="orb a"></div><div class="orb b"></div></div>
 <main class="layout">
 <section class="identity"><img class="logo" src="assets/logo.png" alt="Fountain Daily Roleplay"><div class="brand">FOUNTAIN DAILY<span>ROLEPLAY </span></div><p class="tagline">Your character. Your journey. Your story.<br>Mulai petualangan roleplay kamu sekarang.</p><div class="server-chip"><i></i> FDRP PORTAL</div></section>
 <section class="formside">
 <div class="head"><span class="kicker">PLAYER AUTHENTICATION</span><span class="secure">◈ SECURE LOGIN</span></div><h1>Welcome Back.</h1><p class="sub">Masuk dengan akun karakter Fountain Daily Roleplay kamu.</p>
+<div class="maintenance-banner" id="maintenanceBanner" role="status">SERVER SEDANG MAINTENANCE. Login sementara dinonaktifkan.</div>
+<div class="feature-strip">
+ <div class="feature-card"><span class="feature-label">ACCOUNT STATUS</span><span class="feature-value" id="accountStatus"><i class="status-dot"></i>Checking…</span><span class="feature-muted" id="accountStatusNote">Status akun dari server</span></div>
+ <div class="feature-card"><span class="feature-label">CHARACTER SLOTS</span><span class="feature-value" id="slotStatus">0/3</span><span class="feature-muted">Slot karakter tersedia</span></div>
+</div>
 <section class="ucp-area" aria-label="Verifikasi UCP">
 <button class="ucp-trigger" id="ucpToggle" type="button" aria-expanded="false" aria-controls="ucpPanel">
   <span class="ucp-trigger-icon" aria-hidden="true">⌘</span>
@@ -381,7 +581,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,.layout::-webkit-scrollbar,
 <div class="field"><div class="labelrow"><label for="username">USERNAME / CHARACTER NAME</label><span class="hint">Required</span></div><div class="control"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.5-4 3.2-6 8-6s7.5 2 8 6"/></svg><input id="username" name="username" type="text" placeholder="Masukan Nama Ucp" autocomplete="username" required></div></div>
 <div class="field"><div class="labelrow"><label for="password">PASSWORD</label><span class="hint">Keep it private</span></div><div class="control"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required><button class="reveal" type="button" id="toggle">SHOW</button></div></div>
 <div class="options"><label class="remember"><input id="remember" type="checkbox"> Remember account</label><a class="help" href="#" id="help">Need help?</a></div>
-<div class="actions"><button class="login" type="submit">LOGIN TO SERVER&nbsp; ↗</button><a class="helpbtn" href="#" id="helpIcon" aria-label="Help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.2 1-1.8 1.4-1.8 3"/><path d="M12 17.5h.01"/></svg></a></div><p class="message" id="message" role="status">Pastikan detail akun kamu benar sebelum masuk.</p>
+<div class="actions"><button class="login" type="submit">LOGIN TO SERVER&nbsp; ↗</button><a class="helpbtn" href="#" id="helpIcon" aria-label="Help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.2 1-1.8 1.4-1.8 3"/><path d="M12 17.5h.01"/></svg></a></div><p class="message" id="message" role="status">Pastikan detail akun kamu benar sebelum masuk.</p><p class="security-note" id="loginSecurityNote">Proteksi percobaan login dikelola oleh server.</p>
 </form>
 
 <button class="register-open" id="registerOpen" type="button">PLAYER BARU? BUAT AKUN & KARAKTER&nbsp; ↗</button>
@@ -389,6 +589,34 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,.layout::-webkit-scrollbar,
 
 <div class="bottom"><span><b>FDRP</b> · FOUNTAIN DAILY RP</span><span>SA-MP · UCP</span></div>
 </section></main>
+
+
+
+<div id="fdrpToast" class="fdrp-toast" role="status" aria-live="polite"></div>
+
+<div class="char-overlay" id="charOverlay" role="dialog" aria-modal="true">
+ <section class="char-card">
+  <div class="char-head"><div><span class="char-kicker">FDRP CHARACTER HUB</span><h2>Pilih Karakter</h2></div><button id="charClose" class="char-close" type="button">×</button></div>
+  <p class="char-note">Pilih karakter untuk masuk ke kota. Maksimal 3 karakter dalam satu akun.</p>
+   <div class="char-preview" id="characterPreview"><div class="preview-skin" id="previewSkin">♙</div><div class="preview-copy"><strong id="previewName">Belum ada karakter dipilih</strong><small id="previewDetail">Preview skin karakter akan tampil di sini</small></div></div>
+  <div class="char-list" id="charList"><div class="char-empty">Memuat karakter akun…</div></div>
+  <div class="char-actions"><button id="charCreate" type="button" class="char-btn">＋ BUAT KARAKTER BARU <span id="charCount">0/3</span></button></div>
+  <p class="char-status" id="charStatus" role="status"></p>
+ </section>
+</div>
+<div class="spawn-overlay" id="spawnOverlay" role="dialog" aria-modal="true">
+ <section class="spawn-card">
+  <div class="char-head"><div><span class="char-kicker">SELECT CITY ENTRY</span><h2>Pilih Tempat Spawn</h2></div><button id="spawnClose" class="char-close" type="button">×</button></div>
+  <p class="char-note">Tentukan lokasi awal karakter kamu.</p>
+  <div class="spawn-list">
+   <button class="spawn-option" data-spawn="0"><span class="spawn-icon">⌂</span><strong>Los Santos</strong><small>Spawn pusat kota</small></button>
+   <button class="spawn-option" data-spawn="1"><span class="spawn-icon">✈</span><strong>Bandara</strong><small>Spawn area bandara</small></button>
+   <button class="spawn-option" data-spawn="2"><span class="spawn-icon">⚓</span><strong>Pelabuhan</strong><small>Spawn area pelabuhan</small></button>
+   <button class="spawn-option last-spawn-option" data-last-location="true" disabled><span class="spawn-icon">↶</span><strong>Lokasi Terakhir</strong><small id="lastLocationSpawnText">Belum ada data lokasi logout</small></button>
+  </div>
+  <p class="char-status" id="spawnStatus" role="status">Pilih salah satu lokasi spawn.</p>
+ </section>
+</div>
 
 <div class="reg-overlay" id="regOverlay" role="dialog" aria-modal="true" aria-labelledby="regTitle">
   <section class="reg-card">
@@ -415,6 +643,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,.layout::-webkit-scrollbar,
   </section>
 </div>
 
+<div class="loading-overlay" id="loadingOverlay" aria-live="assertive"><div class="loading-box"><div class="loading-mark"><span>✦</span></div><h2 id="loadingTitle">MEMASUKI KOTA</h2><p id="loadingText">Menghubungkan karakter ke server Fountain Daily Roleplay…</p><div class="loading-track"><i></i></div></div></div>
 <script>
 
 const pass=document.getElementById('password');
@@ -508,7 +737,7 @@ if(bridge()){
     else regStatus.textContent='Password gagal disimpan ke server.';
   });
   cef.on('fdrp_character_result',result=>{
-    if(result==='ok'){regStatus.textContent='Karakter berhasil dibuat! Memuat karakter…';regStatus.style.color='#75d6ff';setTimeout(regClose,250);}
+    if(result==='ok'){regStatus.textContent='Karakter berhasil dibuat! Memuat daftar karakter…';regStatus.style.color='#75d6ff';setTimeout(()=>{regClose();if(bridge())cef.emit('fdrp_request_characters');},350);}
     else if(result==='name_taken')regStatus.textContent='Nama karakter sudah digunakan.';
     else if(result==='invalid_skin')regStatus.textContent='Pilihan tampilan tidak valid. Muat ulang daftar skin.';
     else regStatus.textContent='Karakter gagal dibuat. Silakan coba kembali.';
@@ -516,9 +745,103 @@ if(bridge()){
 }
 
 
+
+// Character hub + 3 spawn choices. Requires server-side CEF event handlers.
+const charOverlay=document.getElementById('charOverlay'),spawnOverlay=document.getElementById('spawnOverlay');
+const charList=document.getElementById('charList'),charStatus=document.getElementById('charStatus');
+const charCreate=document.getElementById('charCreate'),charCount=document.getElementById('charCount');
+let accountCharacters=[],activeCharacter=null;
+function drawCharacters(list){
+ accountCharacters=Array.isArray(list)?list.slice(0,3):[];
+ charCount.textContent=accountCharacters.length+'/3';document.getElementById('slotStatus').textContent=accountCharacters.length+'/3';
+ charCreate.disabled=accountCharacters.length>=3;
+ charList.innerHTML='';
+ if(!accountCharacters.length){charList.innerHTML='<div class="char-empty">Belum ada karakter. Buat karakter pertamamu.</div>';return;}
+ accountCharacters.forEach((c,index)=>{
+  const id=typeof c==='object'?(c.id??c.characterId??index):index;
+  const name=typeof c==='object'?(c.name||c.characterName||('Karakter '+(index+1))):String(c);
+  const skin=typeof c==='object'?(c.skin??c.skinId??'—'):'—';
+  const button=document.createElement('button');button.type='button';button.className='char-item';
+  button.innerHTML='<span class="char-avatar">♙</span><span><strong></strong><small></small></span><span class="select-tag">PILIH →</span>';
+  button.querySelector('strong').textContent=name;button.querySelector('small').textContent='Slot '+(index+1)+' · Skin '+skin;
+  button.addEventListener('click',()=>{activeCharacter=id;updateCharacterPreview(typeof c==='object'?c:{name:String(c)});charStatus.textContent='Karakter '+name+' dipilih. Meminta pilihan spawn…';if(bridge())cef.emit('fdrp_select_character',id,name);else charStatus.textContent='Fitur karakter hanya tersedia di CEF game.';});
+  charList.appendChild(button);
+ });
+}
+function openCharacterHub(list){drawCharacters(list||accountCharacters);charOverlay.classList.add('show');}
+document.getElementById('charClose').addEventListener('click',()=>charOverlay.classList.remove('show'));
+document.getElementById('spawnClose').addEventListener('click',()=>spawnOverlay.classList.remove('show'));
+charCreate.addEventListener('click',()=>{
+ if(accountCharacters.length>=3){charStatus.textContent='Slot penuh. Maksimal 3 karakter per akun.';return;}
+ charOverlay.classList.remove('show');regOpen();
+ // Existing registration dialog will create a new character; after creation server should send updated fdrp_character_list.
+});
+document.querySelectorAll('.spawn-option').forEach(btn=>btn.addEventListener('click',()=>{
+ if(btn.disabled)return;
+ const isLastLocation=btn.dataset.lastLocation==='true';
+ if(isLastLocation&&(!lastLocationData||lastLocationData.spawnId===undefined)){showFdrpToast('Lokasi logout terakhir belum tersedia.');return;}
+ const spawnId=isLastLocation?Number(lastLocationData.spawnId):Number(btn.dataset.spawn);
+ const spawnName=isLastLocation?'Lokasi Terakhir':btn.querySelector('strong').textContent;
+ selectedSpawnId=spawnId;
+ document.getElementById('spawnStatus').textContent='Memilih '+spawnName+'…';
+ if(bridge())cef.emit('fdrp_spawn_select',activeCharacter,spawnId);
+ else document.getElementById('spawnStatus').textContent='Spawn hanya tersedia melalui CEF.';
+}));
+if(bridge()){
+ cef.on('fdrp_character_list',list=>{hideLoading();drawCharacters(list);openCharacterHub(list);});
+ cef.on('fdrp_character_selected',result=>{
+  if(result==='ok'){charOverlay.classList.remove('show');spawnOverlay.classList.add('show');}
+  else charStatus.textContent='Karakter gagal dipilih. Coba kembali.';
+ });
+ cef.on('fdrp_spawn_result',result=>{
+  if(result==='ok'){spawnOverlay.classList.remove('show');showLoading('SPAWN BERHASIL','Memuat dunia dan menempatkan karakter di lokasi pilihan…');message.textContent='Spawn dipilih. Memasuki kota…';message.style.color='#75d6ff';}
+  else document.getElementById('spawnStatus').textContent='Spawn gagal dipilih. Silakan coba lagi.';
+ });
+}
+
 document.getElementById('toggle').addEventListener('click',function(){
   const reveal=pass.type==='password'; pass.type=reveal?'text':'password'; this.textContent=reveal?'HIDE':'SHOW';
 });
+
+// Lock buttons when server confirms this UCP username/account already exists.
+const toastBox=document.getElementById('fdrpToast');
+let toastTimer=null,ucpAlreadyRegistered=false,accountAlreadyRegistered=false;
+function showFdrpToast(text){
+ toastBox.textContent=text;toastBox.classList.add('show');
+ clearTimeout(toastTimer);toastTimer=setTimeout(()=>toastBox.classList.remove('show'),3200);
+}
+const registerButton=document.getElementById('registerOpen');
+function setRegisteredState(data){
+ if(typeof data==='string')data={ucpRegistered:data==='registered'};
+ data=data||{};
+ ucpAlreadyRegistered=!!(data.ucpRegistered??data.registered??data.exists);
+ accountAlreadyRegistered=!!(data.accountRegistered??data.ucpRegistered??data.registered??data.exists);
+ // Registered account cannot use bot verification again; direct them to normal login.
+ ucpToggle.classList.toggle('is-locked',ucpAlreadyRegistered);
+ ucpToggle.setAttribute('aria-disabled',String(ucpAlreadyRegistered));
+ // A UCP name already registered cannot start new account creation.
+ registerButton.classList.toggle('is-locked',accountAlreadyRegistered);
+ registerButton.setAttribute('aria-disabled',String(accountAlreadyRegistered));
+}
+ucpToggle.addEventListener('click',e=>{
+ if(ucpAlreadyRegistered){
+  e.preventDefault();e.stopImmediatePropagation();
+  showFdrpToast('KODE BOT UCP sudah terdaftar. Silakan login menggunakan password akun UCP.');
+ }
+},true);
+registerButton.addEventListener('click',e=>{
+ if(accountAlreadyRegistered){
+  e.preventDefault();e.stopImmediatePropagation();
+  showFdrpToast('PLAYER BARU? BUAT AKUN & KARAKTER ↗');
+ }
+},true);
+if(bridge()){
+ cef.on('fdrp_ucp_status',setRegisteredState);
+ cef.on('fdrp_account_status',setRegisteredState);
+ // Ask the Pawn/server side for the UCP name's current registration state.
+	 cef.emit('fdrp_check_ucp_status',user.value||'');
+}
+
 ucpToggle.addEventListener('click',()=>{
   const opening=ucpPanel.hidden; ucpPanel.hidden=!opening;
   ucpToggle.setAttribute('aria-expanded',String(opening));
@@ -539,8 +862,9 @@ if(bridge()){
     } else if(mode==='login') message.textContent='Silakan masuk dengan akun karakter yang sedang digunakan di server.';
   });
   cef.on('fdrp_login_result',result=>{
-    if(result==='ok'){message.textContent='Login berhasil. Memuat karakter…';message.style.color='#75d6ff';}
+    if(result==='ok'){showLoading('LOGIN BERHASIL','Mengambil data karakter akun…');message.textContent='Login berhasil. Memuat daftar karakter…';message.style.color='#75d6ff';if(bridge())cef.emit('fdrp_request_characters');}
     else if(result==='bad_password'){message.textContent='Kata sandi salah. Periksa kembali.';message.style.color='#ff9b9b';pass.value='';pass.focus();}
+    else if(result==='banned'||result==='suspended'){setAccountState({status:result});message.textContent=result==='banned'?'Akun kamu telah di-banned. Hubungi administrator.':'Akun kamu sedang suspended. Hubungi administrator.';message.style.color='#ff9b9b';}
     else if(result==='locked'){message.textContent='Terlalu banyak percobaan. Koneksi akan ditutup.';message.style.color='#ff9b9b';}
     else if(result==='name_mismatch'){message.textContent='Nama akun harus sama dengan nama karakter yang digunakan untuk masuk ke server.';message.style.color='#ffbd78';}
     else if(result==='not_ready'){message.textContent='Data akun belum siap. Tunggu sebentar lalu coba kembali.';message.style.color='#ffbd78';}
@@ -551,15 +875,24 @@ if(bridge()){
     else if(result==='wrong_code'){botStatus.textContent='Kode BOT UCP salah.';botStatus.style.color='#ff9b9b';}
     else {botStatus.textContent='Masukkan kode angka yang valid.';botStatus.style.color='#ffbd78';}
   });
+  cef.on('fdrp_account_state',setAccountState);
+  cef.on('fdrp_maintenance',setMaintenance);
+  cef.on('fdrp_last_location',setLastLocation);
+  cef.on('fdrp_login_security',setLoginSecurity);
+  cef.on('fdrp_loading_state',data=>{if(data&&data.visible)showLoading(data.title,data.message);else hideLoading();});
+  cef.emit('fdrp_request_account_state');
+  cef.emit('fdrp_request_last_location');
+  cef.emit('fdrp_request_maintenance');
 }
 
 document.getElementById('loginForm').addEventListener('submit',e=>{
   e.preventDefault();
+  if(serverMaintenance){message.textContent='Server sedang maintenance.';return;}
   if(!bridge()){message.textContent='Form autentikasi hanya tersedia saat halaman dibuka di dalam game melalui CEF.';return;}
   const name=user.value.trim(),secret=pass.value;
   if(!name||!secret){message.textContent='Isi nama karakter dan kata sandi.';return;}
   if(/\s/.test(name)||/\s/.test(secret)){message.textContent='Nama dan kata sandi tidak boleh mengandung spasi.';return;}
-  if(document.getElementById('remember').checked){try{localStorage.setItem('fdrp_account',name);}catch(e){}}
+  if(document.getElementById('remember').checked){try{localStorage.setItem('fdrp_account',name);}catch(e){}}else{try{localStorage.removeItem('fdrp_account');}catch(e){}}
   message.textContent='Mengirim permintaan login ke server…';message.style.color='#75d6ff';
   cef.emit('fdrp_login',name,secret);
 });
@@ -571,4 +904,60 @@ document.getElementById('verifyCode').addEventListener('click',()=>{
   botStatus.textContent='Memeriksa kode dengan server…';botStatus.style.color='#75d6ff';
   cef.emit('fdrp_verify_code',code);
 });
+
+// Extended feature event contract. All authoritative values must be sent by the server.
+// Events: fdrp_account_state, fdrp_maintenance,
+// fdrp_last_location, fdrp_login_security, fdrp_loading_state.
+const maintenanceBanner=document.getElementById('maintenanceBanner');
+const loginSubmit=document.querySelector('#loginForm .login');
+const registerOpenFeature=document.getElementById('registerOpen');
+const loadingOverlay=document.getElementById('loadingOverlay');
+let serverMaintenance=false,lastLocationData=null,selectedSpawnId=0;
+function setAccountState(data){
+ data=data||{};const status=String(data.status||'active').toLowerCase();
+ const el=document.getElementById('accountStatus');
+ const label=status==='banned'?'BANNED':status==='suspended'?'SUSPENDED':'ACTIVE';
+ el.innerHTML='<i class="status-dot '+(status==='banned'?'banned':status==='suspended'?'suspended':'')+'"></i>'+label;
+ document.getElementById('accountStatusNote').textContent=data.reason||data.note||'Status akun terverifikasi server';
+}
+function setMaintenance(data){
+ const enabled=typeof data==='boolean'?data:!!(data&&data.enabled);
+ serverMaintenance=enabled;
+ maintenanceBanner.classList.toggle('show',enabled);
+ if(enabled){maintenanceBanner.textContent=(data&&data.message)||'SERVER SEDANG MAINTENANCE. Login sementara dinonaktifkan.';}
+ loginSubmit.disabled=enabled;registerOpenFeature.disabled=enabled;
+ loginSubmit.style.opacity=enabled?'.45':'';
+ if(enabled){message.textContent='Server sedang maintenance. Silakan coba lagi nanti.';message.style.color='#ffcf83';}
+}
+function setLastLocation(data){
+ lastLocationData=data||null;
+ const label=data&&(data.label||data.name||data.zone);
+ const available=!!data&&data.spawnId!==undefined;
+ const lastOption=document.querySelector('.last-spawn-option');
+ if(lastOption){lastOption.disabled=!available;document.getElementById('lastLocationSpawnText').textContent=available?(label||'Lokasi logout terakhir'):'Belum ada data lokasi logout';}
+}
+function setLoginSecurity(data){
+ data=data||{};
+ const attempts=Number(data.attemptsRemaining);
+ const lock=!!data.locked||Number(data.lockedUntil)>Date.now();
+ const note=document.getElementById('loginSecurityNote');
+ if(note)note.textContent=lock?(data.message||'Login dikunci sementara oleh server.'):(Number.isFinite(attempts)?'Sisa percobaan login: '+attempts:'');
+ if(lock){loginSubmit.disabled=true;message.textContent=data.message||'Login dikunci sementara. Coba kembali nanti.';message.style.color='#ff9b9b';}
+ else if(!serverMaintenance)loginSubmit.disabled=false;
+}
+function showLoading(title,detail){
+ document.getElementById('loadingTitle').textContent=title||'MEMASUKI KOTA';
+ document.getElementById('loadingText').textContent=detail||'Menyiapkan karakter dan lokasi spawn…';
+ loadingOverlay.classList.add('show');
+}
+function hideLoading(){loadingOverlay.classList.remove('show');}
+function updateCharacterPreview(c){
+ if(!c)return;
+ const name=c.name||c.characterName||'Karakter';
+ const skin=c.skin??c.skinId??'—';
+ document.getElementById('previewName').textContent=name;
+ document.getElementById('previewDetail').textContent='Skin ID '+skin+' · Karakter terpilih';
+ document.getElementById('previewSkin').textContent=String(skin);
+}
+
 </script></body></html>
